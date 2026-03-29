@@ -1,44 +1,124 @@
 ---
 import Layout from 'layouts/Layout.astro';
-import Architecture from 'components/sections/Architecture.astro';
-import DeepResearch from 'components/sections/DeepResearch.astro';
-import ToolSystem from 'components/sections/ToolSystem.astro';
-import Memory from 'components/sections/Memory.astro';
-import ContentGen from 'components/sections/ContentGen.astro';
-import Security from 'components/sections/Security.astro';
-import Performance from 'components/sections/Performance.astro';
-import Comparison from 'components/sections/Comparison.astro';
-import UseCases from 'components/sections/UseCases.astro';
-import FAQ from 'components/sections/FAQ.astro';
-import zhStats from 'data/zh-cn/stats.json';
+import Section from 'components/layout/Section.astro';
+import Container from 'components/layout/Container.astro';
+import SvgSection from 'components/ui/SvgSection.astro';
+import ArchitectureFlow from 'components/ArchitectureFlow.jsx';
+import PipelineFlow from 'components/PipelineFlow.jsx';
+import DistributedFlow from 'components/DistributedFlow.jsx';
+import FaultToleranceFlow from 'components/FaultToleranceFlow.jsx';
 import zhFeatures from 'data/zh-cn/features.json';
 import zhFaq from 'data/zh-cn/faq.json';
+
+const patterns = [
+  { name: 'Topic', color: 'text-accent', description: '即发即忘的发布/订阅，适用于传感器数据、周期性状态和事件' },
+  { name: 'Service', color: 'text-heading', description: '带 UUID 关联的请求/回复。客户端发送请求，服务端返回一个响应' },
+  { name: 'Action', color: 'text-title', description: '长时间运行的目标任务，支持周期性反馈和取消' },
+  { name: 'Streaming', color: 'text-accent', description: '带会话/分段/数据块元数据和队列刷新的连续数据流，支持实时中断' },
+];
+
+const benchmarks = [
+  { metric: '延迟 (SHM)', adora: '~500us p50', dora: '~500us p50', ros2: '1-10ms' },
+  { metric: '拷贝开销', adora: '零 (Arrow)', dora: '零 (Arrow)', ros2: 'CDR 序列化' },
+  { metric: '通信模式', adora: '4', dora: '1 (Topic)', ros2: '4' },
+  { metric: '容错机制', adora: '内置', dora: '无', ros2: '基础' },
+  { metric: '录制/回放', adora: '内置', dora: '无', ros2: 'rosbag' },
+  { metric: '集群管理', adora: '内置', dora: '无', ros2: '手动' },
+  { metric: '动态拓扑', adora: '支持', dora: '不支持', ros2: '部分支持' },
+  { metric: '可观测性', adora: 'OpenTelemetry', dora: '基础日志', ros2: 'ROS2 日志' },
+  { metric: '编程语言', adora: 'Rust/Py/C/C++', dora: 'Rust/Py/C/C++', ros2: 'C++/Py' },
+];
+
+const comparisonRows = [
+  { dim: '定义', adora: '数据流框架', dora: '数据流框架', ros2: '机器人中间件' },
+  { dim: '延迟 (SHM)', adora: '~500us p50', dora: '~500us p50', ros2: '1-10ms' },
+  { dim: '通信模式', adora: '4 (Topic/Service/Action/Stream)', dora: '1 (Topic)', ros2: '4' },
+  { dim: '容错机制', adora: '内置重启策略', dora: '无', ros2: '基础' },
+  { dim: '录制/回放', adora: '内置 (.adorec)', dora: '无', ros2: 'rosbag' },
+  { dim: '集群管理', adora: 'SSH + 标签', dora: '无', ros2: '手动' },
+  { dim: '动态拓扑', adora: '支持', dora: '不支持', ros2: '部分支持' },
+  { dim: '可观测性', adora: 'OpenTelemetry', dora: '基础日志', ros2: 'ROS2 日志' },
+  { dim: '编程语言', adora: 'Rust/Py/C/C++', dora: 'Rust/Py/C/C++', ros2: 'C++/Py' },
+  { dim: '零拷贝', adora: 'Arrow + Zenoh SHM', dora: 'Arrow + Zenoh SHM', ros2: 'CDR 序列化' },
+];
+
+const cases = [
+  {
+    label: '01',
+    title: '自主机器人',
+    description: '感知、规划和控制节点通过零拷贝共享内存连接。无需重写现有节点即可添加新传感器或执行器。',
+    highlights: ['零拷贝 SHM', '热插拔节点', '多语言'],
+  },
+  {
+    label: '02',
+    title: 'AI 流水线',
+    description: '将摄像头、目标检测、LLM 推理和动作节点串联为单一数据流。Python 用于 AI 模型，Rust 用于实时控制。',
+    highlights: ['YOLO + LLM', 'GPU 调度', 'Arrow 缓冲'],
+  },
+  {
+    label: '03',
+    title: '语音助手',
+    description: '流式 ASR、LLM 生成和 TTS，通过队列刷新实现实时中断。Action 模式支持长时间对话。',
+    highlights: ['Streaming 模式', '队列刷新', '亚秒延迟'],
+  },
+  {
+    label: '04',
+    title: '分布式仿真',
+    description: '在集群上运行仿真节点。以任意速度录制和回放场景，无需物理硬件即可进行回归测试。',
+    highlights: ['录制/回放', '集群部署', '变速回放'],
+  },
+  {
+    label: '05',
+    title: '工业自动化',
+    description: 'PLC 接口、传感器融合和控制逻辑，配合容错机制。指数退避和健康监控保障生产线持续运行。',
+    highlights: ['容错机制', '健康检查', '滚动升级'],
+  },
+  {
+    label: '06',
+    title: '研究与原型开发',
+    description: '用 YAML 定义数据流，自由混合语言，快速迭代。录制一次真实数据，离线回放用于算法开发。',
+    highlights: ['YAML 数据流', '离线回放', '快速迭代'],
+  },
+];
+
+const stats = [
+  { value: '10-17x', label: '快于 ROS2' },
+  { value: '4', label: '通信模式' },
+  { value: '4', label: '编程语言' },
+  { value: '0', label: '拷贝开销' },
+];
 ---
 
 <Layout
   title="Adora — 智能体数据流机器人架构"
   description="100% Rust 实时机器人和 AI 应用框架。零拷贝共享内存，比 ROS2 快 10-17 倍。支持 Rust、Python、C、C++。"
 >
-  <section class="hero-scene relative flex min-h-screen items-end overflow-hidden pb-12 pt-20 lg:pb-16">
+  <!-- ════════════════════════════════════════════════════════════════════
+       Hero
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="hero-scene relative flex min-h-screen items-center overflow-hidden py-20">
     <div class="absolute inset-0 z-0">
-      <div class="h-full w-full" style="background: linear-gradient(135deg, #0A0A0F 0%, #1C1C28 40%, rgba(0, 212, 170, 0.08) 100%);"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      <img src="/adora-website/images/hero-bg.png" alt="" class="h-full w-full object-cover" loading="eager" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
     </div>
 
     <div class="relative z-10 w-full px-4 lg:px-9">
       <div class="mx-auto max-w-7xl text-center">
-        <span class="inline-block rounded-sm border border-accent/50 bg-accent/10 px-2 py-0.5 font-mono text-[15px] uppercase tracking-[0.08em] text-white">开源</span>
-
-        <h1 class="mt-4 text-[28px] leading-[1.1] tracking-[-0.03em] text-white md:text-[42px] 2xl:text-[52px]">
-          智能体数据流<br />机器人架构
+        <h1>
+          <span class="block text-[56px] leading-[1] tracking-[-0.05em] text-title md:text-[80px] lg:text-[100px] 2xl:text-[120px]">
+            Agentic
+          </span>
+          <span class="mt-1 block text-[28px] leading-[1.1] tracking-[-0.03em] text-white/90 md:text-[40px] lg:text-[48px] 2xl:text-[56px]">
+            智能体数据流机器人架构
+          </span>
         </h1>
 
-        <p class="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-white/70 lg:text-[16px]">
+        <p class="mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed text-white/80 md:text-[20px] lg:text-[22px]">
           100% Rust 实时机器人和 AI 应用框架。零拷贝共享内存 + Apache Arrow，
           比 ROS2 快 10-17 倍。4 种通信模式，生产级容错，分布式部署。
         </p>
 
-        <div class="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono text-[15px] uppercase tracking-[0.08em] text-white/50 md:gap-x-4">
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[15px] uppercase tracking-[0.08em] text-white/60 md:gap-x-6 md:text-[16px]">
           <span>10-17x 更快</span>
           <span class="text-white/20">|</span>
           <span>4 种模式</span>
@@ -46,8 +126,6 @@ import zhFaq from 'data/zh-cn/faq.json';
           <span>4 种语言</span>
           <span class="text-white/20">|</span>
           <span>零拷贝</span>
-          <span class="text-white/20">|</span>
-          <span>开源</span>
         </div>
 
         <div class="mt-6 flex flex-wrap justify-center gap-3">
@@ -58,28 +136,34 @@ import zhFaq from 'data/zh-cn/faq.json';
     </div>
   </section>
 
-  <section class="bg-bg-secondary px-4 py-12 lg:px-9 lg:py-16">
-    <div class="mx-auto max-w-7xl">
-      <div class="grid grid-cols-2 gap-8 md:grid-cols-5 md:gap-6">
-        {zhStats.map((stat) => (
-          <div class="text-center">
-            <p class="font-mono text-[24px] text-text-bright">{stat.value}</p>
-            <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">{stat.label}</p>
+  <!-- ════════════════════════════════════════════════════════════════════
+       Stats (4 columns)
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section background="secondary" padY="md">
+    <Container>
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
+        {stats.map((stat) => (
+          <div class="text-center reveal">
+            <p class="font-mono text-[32px] leading-none tracking-[-0.02em] text-text-bright md:text-[40px]">{stat.value}</p>
+            <p class="mt-3 font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">{stat.label}</p>
           </div>
         ))}
       </div>
-    </div>
-  </section>
+    </Container>
+  </Section>
 
-  <section class="px-4 py-16 lg:px-9 lg:py-24">
-    <div class="mx-auto max-w-7xl">
+  <!-- ════════════════════════════════════════════════════════════════════
+       Features
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section padY="lg">
+    <Container>
       <div class="mb-12 lg:mb-16">
         <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">核心能力</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">为什么选择 Adora</h2>
       </div>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {zhFeatures.map((feature) => (
-          <div class="glass-box">
+          <div class="glass-box reveal">
             {feature.stat && (
               <p class="font-mono text-[28px] text-accent">{feature.stat}</p>
             )}
@@ -91,21 +175,396 @@ import zhFaq from 'data/zh-cn/faq.json';
           </div>
         ))}
       </div>
+    </Container>
+  </Section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Architecture
+       ════════════════════════════════════════════════════════════════════ -->
+  <SvgSection id="architecture" bgSrc="/images/bg-grid-panel.png">
+    <div class="glass-panel mb-8 reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">系统架构</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+        为规模化而设计
+      </h2>
+      <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+        四层架构：CLI 通过 WebSocket 编排 Coordinator，
+        Coordinator 管理跨机器的 Daemon，每个 Daemon 运行 Node 和 Operator。
+        Zenoh 提供零拷贝数据平面。
+      </p>
+      <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+        <div class="flex items-start gap-3">
+          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-title" />
+          <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-cli</strong> — 构建、运行、管理</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-heading" />
+          <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-coordinator</strong> — WebSocket 控制</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-heading" />
+          <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-daemon</strong> — 单机管理器</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-accent" />
+          <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-runtime</strong> — Operator 引擎</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-accent" />
+          <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">zenoh</strong> — 零拷贝数据平面</p>
+        </div>
+      </div>
     </div>
-  </section>
 
-  <Architecture />
-  <DeepResearch />
-  <ToolSystem />
-  <Memory />
-  <ContentGen />
-  <Security />
-  <Performance />
-  <Comparison />
-  <UseCases />
+    <div class="glass-panel reveal">
+      <ArchitectureFlow client:only="react" />
+    </div>
+  </SvgSection>
 
-  <section id="quickstart" class="bg-bg-secondary px-4 py-16 lg:px-9 lg:py-24">
-    <div class="mx-auto max-w-7xl">
+  <!-- ════════════════════════════════════════════════════════════════════
+       Communication Patterns (DeepResearch)
+       ════════════════════════════════════════════════════════════════════ -->
+  <SvgSection bgSrc="/images/bg-circuit-panel.png">
+    <div class="glass-panel mb-8 reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">通信模式</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+        四种通信方式
+      </h2>
+      <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+        不仅仅是发布/订阅。Adora 通过预定义的元数据键提供 Topic、Service、Action 和 Streaming 模式。
+        无需修改 Daemon 或 YAML 配置。
+      </p>
+    </div>
+
+    <div class="glass-panel mb-8 reveal">
+      <PipelineFlow client:only="react" />
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {patterns.map((p, i) => (
+        <div class="glass-panel reveal" style={`animation-delay: ${i * 100}ms`}>
+          <p class:list={['font-mono text-[15px] uppercase tracking-[0.08em]', p.color]}>{p.name}</p>
+          <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">{p.description}</p>
+        </div>
+      ))}
+    </div>
+  </SvgSection>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Distributed (ToolSystem)
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section background="secondary" padY="lg">
+    <Container>
+      <div class="mb-8 reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">分布式</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+          随处运行，全面扩展
+        </h2>
+        <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+          同机节点使用本地共享内存，跨机器通信自动切换 Zenoh 发布/订阅。
+          基于 SSH 的集群管理，支持标签调度和滚动升级。
+        </p>
+      </div>
+
+      <div class="mb-8 rounded-lg border border-surface-3 bg-surface-1 p-6 reveal">
+        <DistributedFlow client:only="react" />
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex items-center gap-6 rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <span class="shrink-0 font-mono text-[28px] text-text-bright">6013</span>
+          <div>
+            <p class="font-mono text-[15px] uppercase tracking-[0.08em] text-accent">WebSocket 控制平面</p>
+            <p class="text-[16px] text-neutral-2">Coordinator 通过持久 WebSocket 连接管理所有 Daemon</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-6 rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <span class="shrink-0 font-mono text-[28px] text-text-bright">SSH</span>
+          <div>
+            <p class="font-mono text-[15px] uppercase tracking-[0.08em] text-heading">集群部署</p>
+            <p class="text-[16px] text-neutral-2">通过 <code class="text-code">adora cluster up</code> 跨机器部署 — 无需 Kubernetes</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-6 rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <span class="shrink-0 font-mono text-[28px] text-text-bright">0</span>
+          <div>
+            <p class="font-mono text-[15px] uppercase tracking-[0.08em] text-title">零拷贝 IPC</p>
+            <p class="text-[16px] text-neutral-2">本地节点使用共享内存，跨机器使用 Zenoh SHM — 零序列化开销</p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Observability (Memory)
+       ════════════════════════════════════════════════════════════════════ -->
+  <SvgSection>
+    <div class="glass-panel mb-8 reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">可观测性</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+        全面洞察
+      </h2>
+      <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+        内置 OpenTelemetry，支持结构化日志、指标和分布式追踪。
+        通过 CLI 监控整个集群。
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="glass-panel border-l-2 !border-l-accent reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-accent">实时监控</p>
+        <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora top</h3>
+        <p class="mt-1 text-[16px] leading-relaxed text-neutral-2">
+          在终端 TUI 中查看所有机器上每个节点的 CPU、内存、队列深度、网络 I/O、重启次数和健康状态。
+        </p>
+      </div>
+
+      <div class="glass-panel border-l-2 !border-l-heading reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-heading">分布式追踪</p>
+        <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora trace list/view</h3>
+        <p class="mt-1 text-[16px] leading-relaxed text-neutral-2">
+          零配置追踪查看。无需部署 Jaeger 或 Zipkin 即可查看跨节点的分布式追踪。
+        </p>
+      </div>
+
+      <div class="glass-panel border-l-2 !border-l-title reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-title">数据检查</p>
+        <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora topic echo/hz/info</h3>
+        <p class="mt-1 text-[16px] leading-relaxed text-neutral-2">
+          打印实时数据、监控发布频率、检查 Schema 和带宽 — 全部在命令行完成。
+        </p>
+      </div>
+    </div>
+  </SvgSection>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Record & Replay (ContentGen)
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section padY="lg">
+    <Container>
+      <div class="mb-8 reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">录制与回放</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+          捕获、回放、调试
+        </h2>
+        <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+          将所有数据流消息录制到 .adorec 文件。以任意速度离线回放，
+          支持节点替换，用于回归测试。
+        </p>
+      </div>
+
+      <div class="mb-16 space-y-4">
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <span class="font-mono text-[16px] text-accent">adora record</span>
+          <p class="mt-1 text-[16px] text-neutral-2">从任何运行中的数据流捕获实时消息到 .adorec 文件。支持按节点选择性录制或全图录制。</p>
+        </div>
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <span class="font-mono text-[16px] text-accent">adora replay</span>
+          <p class="mt-1 text-[16px] text-neutral-2">以任意速度回放录制数据 — 0.1x 用于逐步调试，10x 用于快速回归测试。</p>
+        </div>
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <span class="font-mono text-[16px] text-accent">节点替换</span>
+          <p class="mt-1 text-[16px] text-neutral-2">在回放期间替换节点，使用录制的真实输入测试新逻辑。</p>
+        </div>
+      </div>
+
+      <div class="mb-8 reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">时间旅行调试</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+          录制一次，永久调试
+        </h2>
+        <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+          在现场捕获数据，在实验室无限回放。逐步执行精确的消息序列，
+          替换单个节点以使用真实数据测试新算法，
+          无需部署到硬件即可运行回归测试套件。
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <h3 class="text-[16px] text-accent">离线硬件调试</h3>
+          <p class="mt-1 text-[16px] text-neutral-2">无需运行物理硬件即可调试整个传感器到执行器的流水线。从录制中回放精确的相机帧、激光雷达扫描和 IMU 数据。</p>
+        </div>
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <h3 class="text-[16px] text-accent">CI 回归测试</h3>
+          <p class="mt-1 text-[16px] text-neutral-2">录制黄金数据集，在 CI 中回放。自动检测算法变更是否产生不同输出。与 <code class="text-code">adora replay --assert</code> 集成。</p>
+        </div>
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <h3 class="text-[16px] text-accent">时间戳精确回放</h3>
+          <p class="mt-1 text-[16px] text-neutral-2">回放时保留原始时序关系。变速播放从 0.1x 慢动作到 100x 快进。</p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-2 reveal">
+        {['.adorec 格式', '变速回放', '节点替换', '离线模式', '回归测试', 'CI 集成', '数据检查', '时间戳回放', '选择性录制', '多节点捕获'].map((s) => (
+          <span class="rounded-sm border border-surface-3 bg-surface-1 px-3 py-1.5 font-mono text-[15px] text-neutral-2 transition-colors duration-300 hover:border-neutral-1 hover:text-accent">
+            {s}
+          </span>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Fault Tolerance (Security)
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section id="fault-tolerance" padY="lg">
+    <Container>
+      <div class="mb-8 reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">容错机制</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+          为恢复而生
+        </h2>
+        <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+          按节点配置重启策略、指数退避、健康监控和持久化协调器状态。
+          即使单个节点故障，数据流也能持续运行。
+        </p>
+      </div>
+
+      <div class="mb-8 rounded-lg border border-surface-3 bg-surface-1 p-6 reveal">
+        <FaultToleranceFlow client:only="react" />
+      </div>
+
+      <div class="space-y-4">
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <h3 class="text-[16px] text-accent">重启策略</h3>
+          <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">按节点选择 <code class="text-code">never</code>、<code class="text-code">on-failure</code> 或 <code class="text-code">always</code>。在 YAML 中配置最大重试次数和时间窗口。</p>
+        </div>
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <h3 class="text-[16px] text-accent">协调器持久化</h3>
+          <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">通过 redb 持久化状态。重启协调器后，所有 Daemon 自动重连并恢复先前状态。</p>
+        </div>
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+          <h3 class="text-[16px] text-accent">优雅降级</h3>
+          <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">单个节点故障被隔离。其余数据流在故障节点恢复期间继续正常处理。</p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Performance
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section id="performance" padY="lg">
+    <Container>
+      <div class="mb-12 lg:mb-16 reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">性能表现</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+          在关键处极致高效
+        </h2>
+        <p class="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+          亚毫秒延迟，共享内存，零拷贝 Arrow 缓冲，四种通信模式。
+          继承 dora 的全部性能，同时提供完整的编排能力。
+        </p>
+      </div>
+
+      <div class="overflow-x-auto reveal">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="border-b border-surface-3">
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">维度</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-accent">Adora</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">dora (原版)</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">ROS2</th>
+            </tr>
+          </thead>
+          <tbody>
+            {benchmarks.map((row) => (
+              <tr class="border-b border-surface-3 transition-colors duration-200 hover:bg-surface-1">
+                <td class="px-4 py-3 text-[16px] text-text">{row.metric}</td>
+                <td class="px-4 py-3 font-mono text-[16px] text-text-bright">{row.adora}</td>
+                <td class="px-4 py-3 font-mono text-[16px] text-neutral-2">{row.dora}</td>
+                <td class="px-4 py-3 font-mono text-[16px] text-neutral-2">{row.ros2}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Comparison
+       ════════════════════════════════════════════════════════════════════ -->
+  <SvgSection id="comparison" bgSrc="/images/bg-coral-panel.png">
+    <div class="glass-panel mb-8">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">对比</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+        Adora vs dora vs ROS2
+      </h2>
+      <p class="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+        Adora 基于 dora 的零拷贝数据平面构建，新增了生产部署所需的编排、
+        容错和可观测性能力。
+      </p>
+    </div>
+
+    <div class="glass-panel overflow-x-auto">
+      <table class="w-full border-collapse text-[15px]">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="px-3 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-1">维度</th>
+            <th class="px-3 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-accent">Adora</th>
+            <th class="px-3 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">dora</th>
+            <th class="px-3 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">ROS2</th>
+          </tr>
+        </thead>
+        <tbody>
+          {comparisonRows.map((row) => (
+            <tr class="border-b border-white/5 transition-colors duration-200 hover:bg-white/5">
+              <td class="px-3 py-2.5 font-mono text-[16px] text-neutral-2">{row.dim}</td>
+              <td class="px-3 py-2.5 text-text-bright">{row.adora}</td>
+              <td class="px-3 py-2.5 text-neutral-2">{row.dora}</td>
+              <td class="px-3 py-2.5 text-neutral-2">{row.ros2}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-6 text-center">
+      <a href="/comparison" class="font-mono text-[15px] text-accent underline underline-offset-4 transition-colors duration-200 hover:text-text-bright">
+        查看完整对比 →
+      </a>
+    </div>
+  </SvgSection>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Use Cases
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section id="usecases" padY="lg">
+    <Container>
+      <div class="mb-12 lg:mb-16 reveal">
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">应用场景</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+          为真实工作负载而生
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-px overflow-hidden border border-surface-3 md:grid-cols-2 lg:grid-cols-3">
+        {cases.map((c) => (
+          <div class="group bg-surface-1 p-6 transition-colors duration-300 hover:bg-surface-2 lg:p-8 reveal">
+            <span class="font-mono text-[15px] text-neutral-1">{c.label}</span>
+            <h3 class="mt-3 text-[18px] tracking-[-0.01em] lg:text-[20px]">{c.title}</h3>
+            <p class="mt-3 text-[16px] leading-relaxed text-neutral-2">{c.description}</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {c.highlights.map((h) => (
+                <span class="rounded-sm bg-surface-3 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-neutral-2 transition-colors duration-300 group-hover:text-accent">
+                  {h}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       Quick Start
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section id="quickstart" background="secondary" padY="lg">
+    <Container>
       <div class="mb-12 lg:mb-16">
         <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">快速开始</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">5 分钟开始</h2>
@@ -127,11 +586,14 @@ adora list
 <span class="text-neutral-1"># 查看日志</span>
 adora logs</code></pre>
       </div>
-    </div>
-  </section>
+    </Container>
+  </Section>
 
-  <section class="px-4 py-16 lg:px-9 lg:py-24">
-    <div class="mx-auto max-w-7xl">
+  <!-- ════════════════════════════════════════════════════════════════════
+       FAQ
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section padY="lg">
+    <Container>
       <div class="mb-12 lg:mb-16">
         <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">常见问题</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">FAQ</h2>
@@ -147,21 +609,26 @@ adora logs</code></pre>
           </details>
         ))}
       </div>
-    </div>
-  </section>
+    </Container>
+  </Section>
 
-  <section class="bg-bg-secondary px-4 py-16 lg:px-9 lg:py-24">
-    <div class="mx-auto max-w-xl text-center">
-      <h2 class="text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">
-        5 分钟构建<br class="hidden md:block" />你的第一个数据流
-      </h2>
-      <p class="mx-auto mt-4 max-w-md text-[16px] leading-relaxed text-neutral-2">
-        安装 CLI，用 YAML 定义节点，开始处理数据。
-      </p>
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-        <a href="/book" class="inline-block rounded-sm bg-accent px-4 py-2 font-mono text-[16px] uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent-dark">阅读手册</a>
-        <a href="https://github.com/dora-rs/adora" target="_blank" rel="noopener noreferrer" class="inline-block rounded-sm border border-white/20 px-4 py-2 font-mono text-[16px] uppercase tracking-[0.08em] text-white transition-colors hover:bg-white/20 hover:text-accent">GitHub</a>
+  <!-- ════════════════════════════════════════════════════════════════════
+       CTA
+       ════════════════════════════════════════════════════════════════════ -->
+  <Section background="secondary" padY="lg">
+    <Container narrow>
+      <div class="text-center">
+        <h2 class="text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">
+          5 分钟构建<br class="hidden md:block" />你的第一个数据流
+        </h2>
+        <p class="mx-auto mt-4 max-w-md text-[16px] leading-relaxed text-neutral-2">
+          安装 CLI，用 YAML 定义节点，开始处理数据。
+        </p>
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a href="/book" class="inline-block rounded-sm bg-accent px-4 py-2 font-mono text-[16px] uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent-dark">阅读手册</a>
+          <a href="https://github.com/dora-rs/adora" target="_blank" rel="noopener noreferrer" class="inline-block rounded-sm border border-white/20 px-4 py-2 font-mono text-[16px] uppercase tracking-[0.08em] text-white transition-colors hover:bg-white/20 hover:text-accent">GitHub</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </Container>
+  </Section>
 </Layout>
