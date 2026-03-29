@@ -3,47 +3,43 @@ import Button from 'components/ui/Button.astro';
 ---
 
 <section class="hero-scene relative flex min-h-screen items-center overflow-hidden py-20">
-  <!-- Background image — swapped by JS on theme change -->
-  <div class="absolute inset-0 z-0">
-    <img
-      id="hero-bg"
-      src="/adora-website/images/hero-bg.png"
-      data-dark="/adora-website/images/hero-bg.png"
-      data-light="/adora-website/images/hero-bg-light.png"
-      alt=""
-      class="h-full w-full object-cover"
-      loading="eager"
-    />
-    <div id="hero-overlay" class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+  <!-- Dark hero bg (default) -->
+  <div class="absolute inset-0 z-0 hero-dark">
+    <img src="/adora-website/images/hero-bg.png" alt="" class="h-full w-full object-cover" loading="eager" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+  </div>
+  <!-- Light hero bg -->
+  <div class="absolute inset-0 z-0 hero-light">
+    <img src="/adora-website/images/hero-bg-light.png" alt="" class="h-full w-full object-cover" loading="eager" />
+    <div class="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
   </div>
 
-  <!-- Text -->
   <div class="relative z-10 w-full px-4 lg:px-9">
     <div class="mx-auto max-w-7xl text-center">
       <h1>
-        <span id="hero-title" class="block text-[56px] leading-[1] tracking-[-0.05em] text-title md:text-[80px] lg:text-[100px] 2xl:text-[120px]">
+        <span class="hero-title block text-[56px] leading-[1] tracking-[-0.05em] md:text-[80px] lg:text-[100px] 2xl:text-[120px]">
           Agentic
         </span>
-        <span id="hero-subtitle" class="mt-1 block text-[28px] leading-[1.1] tracking-[-0.03em] text-white/90 md:text-[40px] lg:text-[48px] 2xl:text-[56px]">
+        <span class="hero-subtitle mt-1 block text-[28px] leading-[1.1] tracking-[-0.03em] md:text-[40px] lg:text-[48px] 2xl:text-[56px]">
           Dataflow-Oriented Robotic Architecture
         </span>
       </h1>
 
-      <p id="hero-body" class="mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed text-white/80 md:text-[20px] lg:text-[22px]">
+      <p class="hero-body mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed md:text-[20px] lg:text-[22px]">
         100% Rust framework for real-time robotics and AI. 10-17x faster than ROS2
         with zero-copy shared memory, 4 communication patterns, and production-grade
         fault tolerance.
       </p>
 
-      <div id="hero-stats" class="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[15px] uppercase tracking-[0.08em] text-white/60 md:gap-x-6 md:text-[16px]">
+      <div class="hero-stats mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[15px] uppercase tracking-[0.08em] md:gap-x-6 md:text-[16px]">
         <span>10-17x faster</span>
-        <span class="hero-sep text-white/20">|</span>
+        <span class="hero-sep">|</span>
         <span>4 patterns</span>
-        <span class="hero-sep text-white/20">|</span>
+        <span class="hero-sep">|</span>
         <span>4 languages</span>
-        <span class="hero-sep text-white/20">|</span>
+        <span class="hero-sep">|</span>
         <span>zero-copy</span>
-        <span class="hero-sep text-white/20">|</span>
+        <span class="hero-sep">|</span>
         <span>open source</span>
       </div>
 
@@ -57,57 +53,22 @@ import Button from 'components/ui/Button.astro';
   </div>
 </section>
 
-<script is:inline>
-  (function() {
-    function updateHero() {
-      var theme = document.documentElement.getAttribute('data-theme');
-      var isLight = theme === 'light';
-      var bg = document.getElementById('hero-bg');
-      var overlay = document.getElementById('hero-overlay');
-      var title = document.getElementById('hero-title');
-      var subtitle = document.getElementById('hero-subtitle');
-      var body = document.getElementById('hero-body');
-      var stats = document.getElementById('hero-stats');
+<style is:global>
+  /* Default + dark: show dark bg, hide light bg */
+  .hero-dark { display: block; }
+  .hero-light { display: none !important; }
+  .hero-title { color: #FFB84D; }
+  .hero-subtitle { color: rgba(255,255,255,0.9); }
+  .hero-body { color: rgba(255,255,255,0.8); }
+  .hero-stats { color: rgba(255,255,255,0.6); }
+  .hero-sep { color: rgba(255,255,255,0.2); }
 
-      if (!bg) return;
-
-      // Swap image
-      bg.src = isLight ? bg.dataset.light : bg.dataset.dark;
-
-      // Swap overlay
-      if (overlay) {
-        overlay.className = isLight
-          ? 'absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent'
-          : 'absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent';
-      }
-
-      // Swap text colors
-      if (title) {
-        title.style.color = isLight ? '#0A0A1A' : '';
-      }
-      if (subtitle) {
-        subtitle.style.color = isLight ? 'rgba(10,10,30,0.85)' : 'rgba(255,255,255,0.9)';
-      }
-      if (body) {
-        body.style.color = isLight ? 'rgba(10,10,30,0.7)' : 'rgba(255,255,255,0.8)';
-      }
-      if (stats) {
-        stats.style.color = isLight ? 'rgba(10,10,30,0.5)' : 'rgba(255,255,255,0.6)';
-        stats.querySelectorAll('.hero-sep').forEach(function(s) {
-          s.style.color = isLight ? 'rgba(10,10,30,0.15)' : 'rgba(255,255,255,0.2)';
-        });
-      }
-    }
-
-    // Run on load
-    updateHero();
-
-    // Watch for theme changes
-    var observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(m) {
-        if (m.attributeName === 'data-theme') updateHero();
-      });
-    });
-    observer.observe(document.documentElement, { attributes: true });
-  })();
-</script>
+  /* Light: swap bg, dark text */
+  html[data-theme="light"] .hero-dark { display: none !important; }
+  html[data-theme="light"] .hero-light { display: block !important; }
+  html[data-theme="light"] .hero-title { color: #0A0A1A !important; }
+  html[data-theme="light"] .hero-subtitle { color: rgba(10,10,30,0.85) !important; }
+  html[data-theme="light"] .hero-body { color: rgba(10,10,30,0.7) !important; }
+  html[data-theme="light"] .hero-stats { color: rgba(10,10,30,0.5) !important; }
+  html[data-theme="light"] .hero-sep { color: rgba(10,10,30,0.15) !important; }
+</style>
