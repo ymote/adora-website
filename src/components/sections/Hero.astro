@@ -3,40 +3,45 @@ import Button from 'components/ui/Button.astro';
 ---
 
 <section class="hero-scene relative flex min-h-screen items-center overflow-hidden py-20">
-  <!-- Background: Gemini-generated Renaissance wireframe -->
-  <div class="absolute inset-0 z-0">
+  <!-- Dark background (default + dark theme) -->
+  <div class="hero-bg-dark absolute inset-0 z-0">
     <img src="/adora-website/images/hero-bg.png" alt="" class="h-full w-full object-cover" loading="eager" />
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
   </div>
+  <!-- Light background -->
+  <div class="hero-bg-light absolute inset-0 z-0 hidden">
+    <img src="/adora-website/images/hero-bg-light.png" alt="" class="h-full w-full object-cover" loading="eager" />
+    <div class="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
+  </div>
 
-  <!-- Text directly on background -->
+  <!-- Text -->
   <div class="relative z-10 w-full px-4 lg:px-9">
     <div class="mx-auto max-w-7xl text-center">
       <h1>
-        <span class="block text-[56px] leading-[1] tracking-[-0.05em] text-title md:text-[80px] lg:text-[100px] 2xl:text-[120px]">
+        <span class="hero-title block text-[56px] leading-[1] tracking-[-0.05em] md:text-[80px] lg:text-[100px] 2xl:text-[120px]">
           Agentic
         </span>
-        <span class="mt-1 block text-[28px] leading-[1.1] tracking-[-0.03em] text-white/90 md:text-[40px] lg:text-[48px] 2xl:text-[56px]">
+        <span class="hero-subtitle mt-1 block text-[28px] leading-[1.1] tracking-[-0.03em] md:text-[40px] lg:text-[48px] 2xl:text-[56px]">
           Dataflow-Oriented Robotic Architecture
         </span>
       </h1>
 
-      <p class="mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed text-white/80 md:text-[20px] lg:text-[22px]">
+      <p class="hero-body mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed md:text-[20px] lg:text-[22px]">
         100% Rust framework for real-time robotics and AI. 10-17x faster than ROS2
         with zero-copy shared memory, 4 communication patterns, and production-grade
         fault tolerance.
       </p>
 
       <!-- Stats bar -->
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[15px] uppercase tracking-[0.08em] text-white/60 md:gap-x-6 md:text-[16px]">
+      <div class="hero-stats mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[15px] uppercase tracking-[0.08em] md:gap-x-6 md:text-[16px]">
         <span>10-17x faster</span>
-        <span class="text-white/20">|</span>
+        <span class="hero-divider">|</span>
         <span>4 patterns</span>
-        <span class="text-white/20">|</span>
+        <span class="hero-divider">|</span>
         <span>4 languages</span>
-        <span class="text-white/20">|</span>
+        <span class="hero-divider">|</span>
         <span>zero-copy</span>
-        <span class="text-white/20">|</span>
+        <span class="hero-divider">|</span>
         <span>open source</span>
       </div>
 
@@ -50,3 +55,23 @@ import Button from 'components/ui/Button.astro';
     </div>
   </div>
 </section>
+
+<style>
+  /* Default (black) + dark theme: light text on dark bg */
+  .hero-title { color: var(--color-title); }
+  .hero-subtitle { color: rgba(255, 255, 255, 0.9); }
+  .hero-body { color: rgba(255, 255, 255, 0.8); }
+  .hero-stats { color: rgba(255, 255, 255, 0.6); }
+  .hero-divider { color: rgba(255, 255, 255, 0.2); }
+  .hero-bg-dark { display: block; }
+  .hero-bg-light { display: none; }
+
+  /* Light theme: dark text on light bg */
+  html[data-theme="light"] .hero-title { color: #0A0A1A; }
+  html[data-theme="light"] .hero-subtitle { color: rgba(10, 10, 30, 0.85); }
+  html[data-theme="light"] .hero-body { color: rgba(10, 10, 30, 0.7); }
+  html[data-theme="light"] .hero-stats { color: rgba(10, 10, 30, 0.5); }
+  html[data-theme="light"] .hero-divider { color: rgba(10, 10, 30, 0.15); }
+  html[data-theme="light"] .hero-bg-dark { display: none; }
+  html[data-theme="light"] .hero-bg-light { display: block; }
+</style>
