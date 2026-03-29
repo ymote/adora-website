@@ -1,22 +1,19 @@
 ---
 /**
- * Section with a decorative SVG background image and frosted glass content.
- * SVG stays fixed while content scrolls over it.
+ * Section with a subtle gradient background and frosted glass content.
  */
 interface Props {
   id?: string;
-  bgSrc: string;
+  bgSrc?: string;
   class?: string;
 }
 
-const { id, bgSrc, class: className } = Astro.props;
+const { id, class: className } = Astro.props;
 ---
 
 <section id={id} class:list={['relative overflow-hidden', className]}>
-  <!-- Fixed SVG background image -->
-  <div class="absolute inset-0 z-0">
-    <img src={bgSrc} alt="" class="h-full w-full object-cover" loading="lazy" />
-  </div>
+  <!-- Gradient background (no image) -->
+  <div class="absolute inset-0 z-0 bg-gradient-to-br from-bg via-bg-secondary to-bg opacity-80"></div>
 
   <!-- Content -->
   <div class="relative z-10 px-4 py-20 lg:px-9 lg:py-32">

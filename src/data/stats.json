@@ -2,6 +2,5 @@
   { "value": "10-17x", "label": "faster than ROS2" },
   { "value": "4", "label": "communication patterns" },
   { "value": "4", "label": "languages supported" },
-  { "value": "772", "label": "source files" },
   { "value": "0", "label": "copy overhead" }
 ]

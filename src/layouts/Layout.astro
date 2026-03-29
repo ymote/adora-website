@@ -34,6 +34,30 @@ const { title, description, ogImage } = Astro.props;
     </main>
     <Footer />
 
-    <!-- No scroll-reveal JS needed — content visible by default -->
+    <!-- Scroll-reveal animations (factory.ai style) -->
+    <script is:inline>
+      (function() {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+          observer.observe(el);
+        });
+
+        // Re-observe on navigation
+        var mo = new MutationObserver(function() {
+          document.querySelectorAll('.reveal:not(.revealed)').forEach(function(el) {
+            observer.observe(el);
+          });
+        });
+        mo.observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
   </body>
 </html>

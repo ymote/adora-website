@@ -49,8 +49,8 @@
   },
   {
     "title": "Agentic Engineering",
-    "description": "Built and maintained with autonomous AI agents driving code generation, reviews, refactoring, testing, and commits. 772 source files and growing.",
-    "stat": "772",
-    "statLabel": "source files"
+    "description": "Built and maintained with autonomous AI agents driving code generation, reviews, refactoring, testing, and commits.",
+    "stat": null,
+    "statLabel": null
   }
 ]

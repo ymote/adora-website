@@ -2,7 +2,10 @@
 import Layout from 'layouts/Layout.astro';
 import Section from 'components/layout/Section.astro';
 import Container from 'components/layout/Container.astro';
+import Button from 'components/ui/Button.astro';
 import chapters from 'data/book-chapters.json';
+
+const bookUrl = 'https://dora-rs.github.io/adora-book/';
 ---
 
 <Layout
@@ -12,14 +15,17 @@ import chapters from 'data/book-chapters.json';
   <Section id="book-hero" padY="lg">
     <Container narrow>
       <div class="text-center">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Documentation</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Documentation</p>
         <h1 class="mt-3 text-[32px] tracking-[-0.03em] md:text-[42px] lg:text-[52px]">
           The Adora Book
         </h1>
-        <p class="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+        <p class="mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-neutral-2">
           Comprehensive guide to building real-time robotics and AI applications with Adora.
           From installation to distributed deployment, everything you need to know.
         </p>
+        <div class="mt-8">
+          <Button href={bookUrl} external>Read the Book</Button>
+        </div>
       </div>
     </Container>
   </Section>
@@ -28,20 +34,22 @@ import chapters from 'data/book-chapters.json';
     <Container>
       <div class="space-y-12">
         {chapters.map((group) => (
-          <div>
+          <div class="reveal">
             <h2 class="mb-6 text-[24px] tracking-[-0.02em] md:text-[28px]">
               {group.section}
             </h2>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               {group.chapters.map((ch) => (
                 <a
-                  href={ch.href}
+                  href={bookUrl + ch.href.replace('/book/', '')}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="group block rounded-lg border border-surface-3 bg-surface-1 p-5 transition-all duration-300 hover:border-accent hover:bg-surface-2"
                 >
-                  <h3 class="text-[16px] font-normal text-text-bright transition-colors group-hover:text-accent">
+                  <h3 class="text-[18px] font-normal text-text-bright transition-colors group-hover:text-accent">
                     {ch.title}
                   </h3>
-                  <p class="mt-2 text-[14px] leading-relaxed text-neutral-2">
+                  <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">
                     {ch.description}
                   </p>
                 </a>
@@ -58,28 +66,16 @@ import chapters from 'data/book-chapters.json';
       <div class="text-center">
         <h2 class="text-[24px] tracking-[-0.02em] md:text-[28px]">Additional Resources</h2>
         <div class="mt-6 flex flex-wrap justify-center gap-4">
-          <a
-            href="https://docs.rs/adora-node-api"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="rounded-lg border border-surface-3 bg-surface-1 px-6 py-3 font-mono text-[13px] text-text transition-all hover:border-accent hover:text-accent"
-          >
+          <a href="https://docs.rs/adora-node-api" target="_blank" rel="noopener noreferrer"
+            class="rounded-lg border border-surface-3 bg-surface-1 px-6 py-3 font-mono text-[15px] text-text transition-all hover:border-accent hover:text-accent">
             Rust API Docs
           </a>
-          <a
-            href="https://github.com/dora-rs/adora"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="rounded-lg border border-surface-3 bg-surface-1 px-6 py-3 font-mono text-[13px] text-text transition-all hover:border-accent hover:text-accent"
-          >
+          <a href="https://github.com/dora-rs/adora" target="_blank" rel="noopener noreferrer"
+            class="rounded-lg border border-surface-3 bg-surface-1 px-6 py-3 font-mono text-[15px] text-text transition-all hover:border-accent hover:text-accent">
             GitHub Repository
           </a>
-          <a
-            href="https://discord.gg/6eMGGutkfE"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="rounded-lg border border-surface-3 bg-surface-1 px-6 py-3 font-mono text-[13px] text-text transition-all hover:border-accent hover:text-accent"
-          >
+          <a href="https://discord.gg/6eMGGutkfE" target="_blank" rel="noopener noreferrer"
+            class="rounded-lg border border-surface-3 bg-surface-1 px-6 py-3 font-mono text-[15px] text-text transition-all hover:border-accent hover:text-accent">
             Discord Community
           </a>
         </div>

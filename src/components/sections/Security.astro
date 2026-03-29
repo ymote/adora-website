@@ -1,55 +1,40 @@
 ---
 import Section from 'components/layout/Section.astro';
 import Container from 'components/layout/Container.astro';
-
-const layers = [
-  {
-    title: 'Restart policies',
-    description: 'Choose never, on-failure, or always restart per node. Each policy is configurable in your dataflow YAML.',
-  },
-  {
-    title: 'Exponential backoff',
-    description: 'Configurable initial delay and max backoff. Failed nodes wait progressively longer before retrying to avoid thundering herds.',
-  },
-  {
-    title: 'Health check timeouts',
-    description: 'Circuit breakers detect unresponsive nodes and trigger restarts before cascading failures propagate through the dataflow.',
-  },
-  {
-    title: 'Coordinator persistence',
-    description: 'Coordinator state is persisted via redb. Restart the coordinator and all daemons reconnect with their prior state intact.',
-  },
-  {
-    title: 'Daemon auto-reconnect',
-    description: 'When the coordinator restarts, daemons automatically re-establish their WebSocket connections and resume operation.',
-  },
-  {
-    title: 'Graceful degradation',
-    description: 'Individual node failures are isolated. The rest of your dataflow continues processing while failed nodes recover.',
-  },
-];
+import FaultToleranceFlow from 'components/FaultToleranceFlow.jsx';
 ---
 
 <Section id="fault-tolerance" padY="lg">
   <Container>
-    <div class="mb-12 lg:mb-16" data-animate>
-      <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Fault Tolerance</p>
+    <div class="mb-8 reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Fault Tolerance</p>
       <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
         Built to recover
       </h2>
-      <p class="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+      <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
         Per-node restart policies, exponential backoff, health monitoring, and persistent
         coordinator state. Your dataflow keeps running even when individual nodes fail.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-px overflow-hidden border border-surface-3 md:grid-cols-2 lg:grid-cols-3" data-animate-stagger>
-      {layers.map((layer) => (
-        <div class="bg-surface-1 p-6 lg:p-8">
-          <h3 class="text-[18px] tracking-[-0.01em]">{layer.title}</h3>
-          <p class="mt-2 text-[14px] leading-relaxed text-neutral-2">{layer.description}</p>
-        </div>
-      ))}
+    <!-- Full-width fault tolerance flow chart -->
+    <div class="mb-8 rounded-lg border border-surface-3 bg-surface-1 p-6 reveal">
+      <FaultToleranceFlow client:only="react" />
+    </div>
+
+    <div class="space-y-4">
+      <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+        <h3 class="text-[16px] text-accent">Restart policies</h3>
+        <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">Choose <code class="text-code">never</code>, <code class="text-code">on-failure</code>, or <code class="text-code">always</code> per node. Configurable in YAML with max retries and time windows.</p>
+      </div>
+      <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+        <h3 class="text-[16px] text-accent">Coordinator persistence</h3>
+        <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">State persisted via redb. Restart the coordinator and all daemons reconnect automatically with their prior state intact.</p>
+      </div>
+      <div class="rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+        <h3 class="text-[16px] text-accent">Graceful degradation</h3>
+        <p class="mt-2 text-[16px] leading-relaxed text-neutral-2">Individual node failures are isolated. The rest of your dataflow continues processing while failed nodes recover.</p>
+      </div>
     </div>
   </Container>
 </Section>

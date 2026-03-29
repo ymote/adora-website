@@ -3,46 +3,44 @@ import SvgSection from 'components/ui/SvgSection.astro';
 import ArchitectureFlow from 'components/ArchitectureFlow.jsx';
 ---
 
-<SvgSection id="architecture" bgSrc="/images/bg-coral-panel.png">
-  <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
-    <!-- Text panel -->
-    <div class="glass-panel lg:col-span-4">
-      <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Architecture</p>
-      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
-        Designed for scale
-      </h2>
-      <p class="mt-4 text-[16px] leading-relaxed text-neutral-2">
-        Four-layer architecture: CLI orchestrates the Coordinator via WebSocket,
-        which manages Daemons across machines, each running Nodes and Operators.
-        Zenoh provides the zero-copy data plane.
-      </p>
-      <div class="mt-6 flex flex-col gap-3">
-        <div class="flex items-start gap-3">
-          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-title" />
-          <p class="text-[14px] text-text"><strong class="font-normal text-text-bright">adora-cli</strong> — build, run, and manage dataflows</p>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-heading" />
-          <p class="text-[14px] text-text"><strong class="font-normal text-text-bright">adora-coordinator</strong> — WebSocket control plane</p>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-heading" />
-          <p class="text-[14px] text-text"><strong class="font-normal text-text-bright">adora-daemon</strong> — per-machine node manager</p>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-accent" />
-          <p class="text-[14px] text-text"><strong class="font-normal text-text-bright">adora-runtime</strong> — in-process operator engine</p>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-accent" />
-          <p class="text-[14px] text-text"><strong class="font-normal text-text-bright">zenoh</strong> — distributed zero-copy data plane</p>
-        </div>
+<SvgSection id="architecture" bgSrc="/images/bg-grid-panel.png">
+  <!-- Text panel -->
+  <div class="glass-panel mb-8 reveal">
+    <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Architecture</p>
+    <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+      Designed for scale
+    </h2>
+    <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+      Four-layer architecture: CLI orchestrates the Coordinator via WebSocket,
+      which manages Daemons across machines, each running Nodes and Operators.
+      Zenoh provides the zero-copy data plane.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+      <div class="flex items-start gap-3">
+        <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-title" />
+        <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-cli</strong> — build, run, manage</p>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-heading" />
+        <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-coordinator</strong> — WebSocket control</p>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-heading" />
+        <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-daemon</strong> — per-machine manager</p>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-accent" />
+        <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">adora-runtime</strong> — operator engine</p>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-1 block size-1.5 shrink-0 rounded-full bg-accent" />
+        <p class="text-[16px] text-text"><strong class="font-normal text-text-bright">zenoh</strong> — zero-copy data plane</p>
       </div>
     </div>
+  </div>
 
-    <!-- React Flow diagram -->
-    <div class="glass-panel lg:col-span-8">
-      <ArchitectureFlow client:only="react" />
-    </div>
+  <!-- Full-width React Flow diagram -->
+  <div class="glass-panel reveal">
+    <ArchitectureFlow client:only="react" />
   </div>
 </SvgSection>

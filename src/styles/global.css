@@ -105,6 +105,7 @@ html[data-theme="light"] {
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-sans);
+    font-size: 18px;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -276,5 +277,38 @@ html[data-theme="light"] {
     .glass-box {
       padding: 1.25rem 1.5rem;
     }
+  }
+
+  /* === Scroll reveal animation (factory.ai style) === */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children */
+  .reveal:nth-child(2) { transition-delay: 0.1s; }
+  .reveal:nth-child(3) { transition-delay: 0.2s; }
+  .reveal:nth-child(4) { transition-delay: 0.3s; }
+  .reveal:nth-child(5) { transition-delay: 0.35s; }
+
+  /* === ReactFlow edge fix for light mode === */
+  html[data-theme="light"] .react-flow__edge-path {
+    stroke: #333 !important;
+  }
+
+  html[data-theme="light"] .react-flow__edge.animated path {
+    stroke: #333 !important;
+  }
+
+  /* Make animated edges more visible in all modes */
+  .react-flow__edge.animated path {
+    stroke-linecap: round;
   }
 }

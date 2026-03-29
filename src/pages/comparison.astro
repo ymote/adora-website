@@ -92,7 +92,7 @@ node.send_service_response("response", metadata.parameters, result)`,
   <Section id="comparison-hero" padY="lg">
     <Container narrow>
       <div class="text-center">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Comparison</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Comparison</p>
         <h1 class="mt-3 text-[32px] tracking-[-0.03em] md:text-[42px] lg:text-[52px]">
           What changed from dora to Adora
         </h1>
@@ -109,7 +109,7 @@ node.send_service_response("response", metadata.parameters, result)`,
   <Section id="arch-comparison" padY="lg" background="secondary">
     <Container>
       <div class="mb-8">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Architecture</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Architecture</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">
           TCP to WebSocket, single to distributed
         </h2>
@@ -130,7 +130,7 @@ node.send_service_response("response", metadata.parameters, result)`,
   <Section id="patterns-comparison" padY="lg">
     <Container>
       <div class="mb-8">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Communication</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Communication</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">
           From 1 pattern to 4
         </h2>
@@ -157,7 +157,7 @@ node.send_service_response("response", metadata.parameters, result)`,
                 </span>
               </div>
             </div>
-            <pre class="overflow-x-auto rounded bg-bg p-3 font-mono text-[12px] leading-relaxed text-neutral-2"><code>{pattern.yaml}</code></pre>
+            <pre class="overflow-x-auto rounded bg-bg p-3 font-mono text-[16px] leading-relaxed text-neutral-2"><code>{pattern.yaml}</code></pre>
           </div>
         ))}
       </div>
@@ -168,26 +168,26 @@ node.send_service_response("response", metadata.parameters, result)`,
   <Section id="feature-matrix" padY="lg" background="secondary">
     <Container>
       <div class="mb-8">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Features</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Features</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">
           Complete feature matrix
         </h2>
       </div>
 
       <div class="overflow-x-auto rounded-lg border border-surface-3">
-        <table class="w-full border-collapse text-[13px]">
+        <table class="w-full border-collapse text-[15px]">
           <thead>
             <tr class="border-b border-surface-3 bg-surface-1">
-              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-1">Dimension</th>
-              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-accent">Adora</th>
-              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-2">dora (original)</th>
-              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-2">ROS2</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-1">Dimension</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-accent">Adora</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">dora (original)</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">ROS2</th>
             </tr>
           </thead>
           <tbody>
             {featureMatrix.map((row) => (
               <tr class="border-b border-surface-3/50 transition-colors duration-200 hover:bg-surface-1/50">
-                <td class="px-4 py-2.5 font-mono text-[12px] text-neutral-2">{row.dim}</td>
+                <td class="px-4 py-2.5 font-mono text-[16px] text-neutral-2">{row.dim}</td>
                 <td class="px-4 py-2.5 text-text-bright">{row.adora}</td>
                 <td class="px-4 py-2.5 text-neutral-2">{row.dora}</td>
                 <td class="px-4 py-2.5 text-neutral-2">{row.ros2}</td>
@@ -203,7 +203,7 @@ node.send_service_response("response", metadata.parameters, result)`,
   <Section id="cli-comparison" padY="lg">
     <Container>
       <div class="mb-8">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">CLI</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">CLI</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">
           CLI commands side by side
         </h2>
@@ -214,20 +214,20 @@ node.send_service_response("response", metadata.parameters, result)`,
       </div>
 
       <div class="overflow-x-auto rounded-lg border border-surface-3">
-        <table class="w-full border-collapse text-[13px]">
+        <table class="w-full border-collapse text-[15px]">
           <thead>
             <tr class="border-b border-surface-3 bg-surface-1">
-              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-1">Operation</th>
-              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-accent">Adora</th>
-              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-2">dora</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-1">Operation</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-accent">Adora</th>
+              <th class="px-4 py-3 text-left font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">dora</th>
             </tr>
           </thead>
           <tbody>
             {cliComparison.map((row) => (
               <tr class="border-b border-surface-3/50 transition-colors duration-200 hover:bg-surface-1/50">
                 <td class="px-4 py-2.5 text-neutral-2">{row.command}</td>
-                <td class="px-4 py-2.5 font-mono text-[12px] text-text-bright">{row.adora}</td>
-                <td class="px-4 py-2.5 font-mono text-[12px] text-neutral-2">{row.dora}</td>
+                <td class="px-4 py-2.5 font-mono text-[16px] text-text-bright">{row.adora}</td>
+                <td class="px-4 py-2.5 font-mono text-[16px] text-neutral-2">{row.dora}</td>
               </tr>
             ))}
           </tbody>
@@ -240,7 +240,7 @@ node.send_service_response("response", metadata.parameters, result)`,
   <Section id="production" padY="lg" background="secondary">
     <Container>
       <div class="mb-8">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Production</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Production</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">
           Production readiness
         </h2>
@@ -249,27 +249,27 @@ node.send_service_response("response", metadata.parameters, result)`,
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div class="rounded-lg border border-surface-3 bg-surface-1 p-5">
           <h3 class="text-[16px] text-accent">Fault Tolerance</h3>
-          <p class="mt-2 text-[14px] text-neutral-2">Per-node restart policies (never/on-failure/always), exponential backoff, health monitoring, circuit breakers with configurable input timeouts.</p>
+          <p class="mt-2 text-[16px] text-neutral-2">Per-node restart policies (never/on-failure/always), exponential backoff, health monitoring, circuit breakers with configurable input timeouts.</p>
         </div>
         <div class="rounded-lg border border-surface-3 bg-surface-1 p-5">
           <h3 class="text-[16px] text-accent">Coordinator HA</h3>
-          <p class="mt-2 text-[14px] text-neutral-2">Persistent redb-backed state store. Daemons auto-reconnect with exponential backoff. Dataflow state reconstructed on coordinator restart.</p>
+          <p class="mt-2 text-[16px] text-neutral-2">Persistent redb-backed state store. Daemons auto-reconnect with exponential backoff. Dataflow state reconstructed on coordinator restart.</p>
         </div>
         <div class="rounded-lg border border-surface-3 bg-surface-1 p-5">
           <h3 class="text-[16px] text-accent">Observability</h3>
-          <p class="mt-2 text-[14px] text-neutral-2">OpenTelemetry integration for structured logging, metrics, and distributed tracing. Zero-setup trace viewing via CLI.</p>
+          <p class="mt-2 text-[16px] text-neutral-2">OpenTelemetry integration for structured logging, metrics, and distributed tracing. Zero-setup trace viewing via CLI.</p>
         </div>
         <div class="rounded-lg border border-surface-3 bg-surface-1 p-5">
           <h3 class="text-[16px] text-accent">Record & Replay</h3>
-          <p class="mt-2 text-[14px] text-neutral-2">Capture all messages to .adorec files. Replay at any speed with node substitution for regression testing.</p>
+          <p class="mt-2 text-[16px] text-neutral-2">Capture all messages to .adorec files. Replay at any speed with node substitution for regression testing.</p>
         </div>
         <div class="rounded-lg border border-surface-3 bg-surface-1 p-5">
           <h3 class="text-[16px] text-accent">Cluster Management</h3>
-          <p class="mt-2 text-[14px] text-neutral-2">SSH-based deployment with label scheduling, rolling upgrades, auto-recovery, and centralized management from the CLI.</p>
+          <p class="mt-2 text-[16px] text-neutral-2">SSH-based deployment with label scheduling, rolling upgrades, auto-recovery, and centralized management from the CLI.</p>
         </div>
         <div class="rounded-lg border border-surface-3 bg-surface-1 p-5">
           <h3 class="text-[16px] text-accent">Real-Time Support</h3>
-          <p class="mt-2 text-[14px] text-neutral-2">Optional --rt flag for mlockall + SCHED_FIFO. Per-node CPU affinity pinning. Comprehensive tuning guide.</p>
+          <p class="mt-2 text-[16px] text-neutral-2">Optional --rt flag for mlockall + SCHED_FIFO. Per-node CPU affinity pinning. Comprehensive tuning guide.</p>
         </div>
       </div>
     </Container>
@@ -279,7 +279,7 @@ node.send_service_response("response", metadata.parameters, result)`,
   <Section id="migration" padY="lg">
     <Container narrow>
       <div class="mb-8 text-center">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Migration</p>
+        <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Migration</p>
         <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">
           Migrating from dora
         </h2>

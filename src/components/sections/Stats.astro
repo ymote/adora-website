@@ -1,18 +1,68 @@
 ---
 import Section from 'components/layout/Section.astro';
 import Container from 'components/layout/Container.astro';
-import StatItem from './StatItem.astro';
-import stats from 'data/stats.json';
+
+const stats = [
+  {
+    value: '10-17x',
+    label: 'faster than ROS2',
+    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 32L20 8l12 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 22h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M20 8v-2m0 0l-3 3m3-3l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+    </svg>`,
+    color: 'text-accent',
+  },
+  {
+    value: '4',
+    label: 'communication patterns',
+    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="2"/>
+      <circle cx="30" cy="10" r="4" stroke="currentColor" stroke-width="2"/>
+      <circle cx="10" cy="30" r="4" stroke="currentColor" stroke-width="2"/>
+      <circle cx="30" cy="30" r="4" stroke="currentColor" stroke-width="2"/>
+      <path d="M14 10h12M10 14v12M30 14v12M14 30h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      <path d="M14 14l12 12M26 14l-12 12" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+    </svg>`,
+    color: 'text-heading',
+  },
+  {
+    value: '4',
+    label: 'languages supported',
+    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 10l-8 10 8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M28 10l8 10-8 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M23 6l-6 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    </svg>`,
+    color: 'text-title',
+  },
+  {
+    value: '0',
+    label: 'copy overhead',
+    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="2"/>
+      <path d="M12 20h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M20 12v16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.3"/>
+      <path d="M14 14l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="zero-slash"/>
+    </svg>`,
+    color: 'text-accent',
+  },
+];
 ---
 
 <Section background="secondary" padY="md">
   <Container>
-    <div
-      class="grid grid-cols-2 gap-8 md:grid-cols-5 md:gap-6"
-      data-animate-stagger
-    >
+    <div class="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
       {stats.map((stat) => (
-        <StatItem value={stat.value} label={stat.label} />
+        <div class="flex flex-col items-center gap-3 text-center reveal">
+          <div class:list={['h-10 w-10', stat.color]} set:html={stat.icon} />
+          <span class="font-mono text-[32px] leading-none tracking-[-0.02em] text-text-bright md:text-[40px]">
+            {stat.value}
+          </span>
+          <span class="font-mono text-[15px] uppercase tracking-[0.08em] text-neutral-2">
+            {stat.label}
+          </span>
+        </div>
       ))}
     </div>
   </Container>

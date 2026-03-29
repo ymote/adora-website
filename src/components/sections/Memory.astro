@@ -2,43 +2,41 @@
 import SvgSection from 'components/ui/SvgSection.astro';
 ---
 
-<SvgSection bgSrc="/images/bg-floor-panel.png">
-  <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-8">
-    <div class="glass-panel">
-      <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Observability</p>
-      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
-        See everything
-      </h2>
-      <p class="mt-4 text-[16px] leading-relaxed text-neutral-2">
-        Built-in OpenTelemetry for structured logging, metrics, and distributed tracing.
-        Monitor your entire fleet from the CLI.
+<SvgSection>
+  <div class="glass-panel mb-8 reveal">
+    <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Observability</p>
+    <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+      See everything
+    </h2>
+    <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+      Built-in OpenTelemetry for structured logging, metrics, and distributed tracing.
+      Monitor your entire fleet from the CLI.
+    </p>
+  </div>
+
+  <div class="space-y-4">
+    <div class="glass-panel border-l-2 !border-l-accent reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-accent">Live monitoring</p>
+      <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora top</h3>
+      <p class="mt-1 text-[16px] leading-relaxed text-neutral-2">
+        Per-node CPU, memory, queue depth, network I/O, restart count, and health status across all machines in a terminal TUI.
       </p>
     </div>
 
-    <div class="flex flex-col gap-4">
-      <div class="glass-panel border-l-2 !border-l-accent">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-accent">Live monitoring</p>
-        <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora top</h3>
-        <p class="mt-1 text-[14px] leading-relaxed text-neutral-2">
-          Per-node CPU, memory, and queue depth in a terminal TUI. See your entire dataflow at a glance.
-        </p>
-      </div>
+    <div class="glass-panel border-l-2 !border-l-heading reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-heading">Distributed tracing</p>
+      <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora trace list/view</h3>
+      <p class="mt-1 text-[16px] leading-relaxed text-neutral-2">
+        Zero-setup trace inspection. View distributed traces across nodes without deploying Jaeger or Zipkin.
+      </p>
+    </div>
 
-      <div class="glass-panel border-l-2 !border-l-heading">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-heading">Distributed tracing</p>
-        <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora trace list/view</h3>
-        <p class="mt-1 text-[14px] leading-relaxed text-neutral-2">
-          Zero-setup trace inspection. View distributed traces across nodes without deploying Jaeger or Zipkin.
-        </p>
-      </div>
-
-      <div class="glass-panel border-l-2 !border-l-title">
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-title">Data inspection</p>
-        <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora topic echo/hz/info</h3>
-        <p class="mt-1 text-[14px] leading-relaxed text-neutral-2">
-          Live data inspection with frequency monitoring. Structured logging with rotation and routing built in.
-        </p>
-      </div>
+    <div class="glass-panel border-l-2 !border-l-title reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-title">Data inspection</p>
+      <h3 class="mt-2 text-[18px] tracking-[-0.01em]">adora topic echo/hz/info</h3>
+      <p class="mt-1 text-[16px] leading-relaxed text-neutral-2">
+        Print live data, monitor publish frequencies, and inspect schemas and bandwidth — all from the command line.
+      </p>
     </div>
   </div>
 </SvgSection>

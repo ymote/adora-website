@@ -1,63 +1,48 @@
 ---
 import Section from 'components/layout/Section.astro';
 import Container from 'components/layout/Container.astro';
-
-const keyPoints = [
-  { label: 'WebSocket control plane', detail: 'Coordinator listens on port 6013 for CLI and daemon connections' },
-  { label: 'Zenoh data plane', detail: 'Zero-copy shared memory for co-located nodes, automatic pub-sub for distributed nodes' },
-  { label: 'SSH cluster deployment', detail: 'Deploy across machines with adora cluster up — no container orchestration needed' },
-  { label: 'Label-based scheduling', detail: 'Pin nodes to specific machines using labels for GPU, ARM, or location constraints' },
-  { label: 'Rolling upgrades', detail: 'Update nodes without downtime via auto-recovery and graceful restarts' },
-];
+import DistributedFlow from 'components/DistributedFlow.jsx';
 ---
 
 <Section background="secondary" padY="lg">
   <Container>
-    <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-      <div data-animate>
-        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Distributed</p>
-        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
-          Run anywhere, scale everywhere
-        </h2>
-        <p class="mt-4 text-[16px] leading-relaxed text-neutral-2">
-          Local shared memory between co-located nodes, automatic Zenoh pub-sub for
-          cross-machine communication. SSH-based cluster management with label scheduling
-          and rolling upgrades.
-        </p>
+    <div class="mb-8 reveal">
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Distributed</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+        Run anywhere, scale everywhere
+      </h2>
+      <p class="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+        Local shared memory between co-located nodes, automatic Zenoh pub-sub for
+        cross-machine communication. SSH-based cluster management with label scheduling
+        and rolling upgrades.
+      </p>
+    </div>
 
-        <div class="mt-8 space-y-4">
-          <div class="flex items-center gap-4">
-            <span class="w-20 shrink-0 text-right font-mono text-[24px] text-text-bright">6013</span>
-            <div>
-              <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-accent">Control plane port</p>
-              <p class="text-[14px] text-neutral-2">WebSocket-based coordinator</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <span class="w-20 shrink-0 text-right font-mono text-[24px] text-text-bright">SSH</span>
-            <div>
-              <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-heading">Cluster deployment</p>
-              <p class="text-[14px] text-neutral-2">No Kubernetes, no containers required</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <span class="w-20 shrink-0 text-right font-mono text-[24px] text-neutral-2">0</span>
-            <div>
-              <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Copy overhead</p>
-              <p class="text-[14px] text-neutral-2">Zero-copy via Arrow and Zenoh shared memory</p>
-            </div>
-          </div>
+    <!-- Full-width distributed architecture flow chart -->
+    <div class="mb-8 rounded-lg border border-surface-3 bg-surface-1 p-6 reveal">
+      <DistributedFlow client:only="react" />
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex items-center gap-6 rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+        <span class="shrink-0 font-mono text-[28px] text-text-bright">6013</span>
+        <div>
+          <p class="font-mono text-[15px] uppercase tracking-[0.08em] text-accent">WebSocket control plane</p>
+          <p class="text-[16px] text-neutral-2">Coordinator manages all daemons via persistent WebSocket connections</p>
         </div>
       </div>
-
-      <div data-animate>
-        <div class="space-y-4">
-          {keyPoints.map((point) => (
-            <div class="flex items-start gap-4 border border-surface-3 bg-surface-1 p-4 transition-colors duration-300 hover:border-neutral-1">
-              <span class="shrink-0 font-mono text-[13px] text-accent">{point.label}</span>
-              <p class="text-[14px] text-neutral-2">{point.detail}</p>
-            </div>
-          ))}
+      <div class="flex items-center gap-6 rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+        <span class="shrink-0 font-mono text-[28px] text-text-bright">SSH</span>
+        <div>
+          <p class="font-mono text-[15px] uppercase tracking-[0.08em] text-heading">Cluster deployment</p>
+          <p class="text-[16px] text-neutral-2">Deploy across machines with <code class="text-code">adora cluster up</code> — no Kubernetes needed</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-6 rounded-lg border border-surface-3 bg-surface-1 p-5 reveal">
+        <span class="shrink-0 font-mono text-[28px] text-text-bright">0</span>
+        <div>
+          <p class="font-mono text-[15px] uppercase tracking-[0.08em] text-title">Zero-copy IPC</p>
+          <p class="text-[16px] text-neutral-2">Shared memory for local nodes, Zenoh SHM for cross-machine — no serialization overhead</p>
         </div>
       </div>
     </div>
