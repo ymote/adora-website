@@ -1,0 +1,101 @@
+---
+import Layout from 'layouts/Layout.astro';
+import Section from 'components/layout/Section.astro';
+import Container from 'components/layout/Container.astro';
+import Button from 'components/ui/Button.astro';
+
+const featureMatrix = [
+  { dim: '协调器协议', adora: 'WebSocket (端口 6013)', dora: 'TCP', ros2: 'DDS' },
+  { dim: '数据平面', adora: 'Zenoh SHM + 共享内存', dora: '仅共享内存', ros2: 'DDS 序列化' },
+  { dim: '通信模式', adora: '4 种 (Topic, Service, Action, Streaming)', dora: '1 种 (仅 Topic)', ros2: '4 种 (Topic, Service, Action, Timer)' },
+  { dim: '延迟 (SHM)', adora: '~500us p50', dora: '~500us p50', ros2: '1-10ms' },
+  { dim: '拷贝开销', adora: '零 (Apache Arrow)', dora: '零 (Apache Arrow)', ros2: 'CDR 序列化' },
+  { dim: '容错', adora: '内置（重启策略、健康检查、熔断器）', dora: '无', ros2: '基础生命周期' },
+  { dim: '录制/回放', adora: '内置 (.adorec 文件)', dora: '无', ros2: 'rosbag2' },
+  { dim: '动态拓扑', adora: '支持（运行时添加/移除/连接/断开）', dora: '不支持', ros2: '部分（生命周期节点）' },
+  { dim: '集群管理', adora: '内置 SSH 集群 + 标签调度', dora: '无', ros2: '手动或外部工具' },
+  { dim: '可观测性', adora: 'OpenTelemetry（日志、指标、追踪）', dora: '基础日志', ros2: 'ROS2 日志 + 第三方' },
+  { dim: '实时支持', adora: 'SCHED_FIFO + mlockall + CPU 亲和', dora: '无', ros2: 'rclcpp Executor（部分）' },
+  { dim: '源文件数', adora: '772', dora: '488', ros2: '~50,000+' },
+];
+---
+
+<Layout
+  title="Adora vs dora vs ROS2 — 详细对比"
+  description="Adora、原始 dora 和 ROS2 的全面对比。功能矩阵、架构差异、CLI 命令、通信模式和迁移指南。"
+>
+  <Section id="comparison-hero" padY="lg">
+    <Container narrow>
+      <div class="text-center">
+        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">对比</p>
+        <h1 class="mt-3 text-[32px] tracking-[-0.03em] md:text-[42px] lg:text-[52px]">
+          从 dora 到 Adora 的变化
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-neutral-2">
+          Adora 是 dora 的增强分支，新增了生产级功能：Service、Action、Streaming 通信模式，
+          容错、集群管理、录制/回放、动态拓扑和全面的可观测性。
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="feature-matrix" padY="lg" background="secondary">
+    <Container>
+      <div class="mb-8">
+        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">功能</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">完整功能矩阵</h2>
+      </div>
+
+      <div class="overflow-x-auto rounded-lg border border-surface-3">
+        <table class="w-full border-collapse text-[13px]">
+          <thead>
+            <tr class="border-b border-surface-3 bg-surface-1">
+              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-1">维度</th>
+              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-accent">Adora</th>
+              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-2">dora（原版）</th>
+              <th class="px-4 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-2">ROS2</th>
+            </tr>
+          </thead>
+          <tbody>
+            {featureMatrix.map((row) => (
+              <tr class="border-b border-surface-3/50 transition-colors duration-200 hover:bg-surface-1/50">
+                <td class="px-4 py-2.5 font-mono text-[12px] text-neutral-2">{row.dim}</td>
+                <td class="px-4 py-2.5 text-text-bright">{row.adora}</td>
+                <td class="px-4 py-2.5 text-neutral-2">{row.dora}</td>
+                <td class="px-4 py-2.5 text-neutral-2">{row.ros2}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="migration" padY="lg">
+    <Container narrow>
+      <div class="mb-8 text-center">
+        <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">迁移</p>
+        <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px]">从 dora 迁移</h2>
+      </div>
+
+      <div class="space-y-6">
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-6">
+          <h3 class="text-[18px] text-accent">发布/订阅向后兼容</h3>
+          <p class="mt-2 text-[15px] leading-relaxed text-neutral-2">
+            现有基于 Topic 的数据流只需最小改动即可运行。核心发布/订阅模型相同，YAML 数据流定义遵循相同结构。
+          </p>
+        </div>
+        <div class="rounded-lg border border-surface-3 bg-surface-1 p-6">
+          <h3 class="text-[18px] text-accent">渐进式采用</h3>
+          <p class="mt-2 text-[15px] leading-relaxed text-neutral-2">
+            新功能是增量添加��。为特定节点添加 Service 模式，按节点启用容错，开始使用 adora record 录制。无需重写整个管道。
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center">
+        <Button href="/book">阅读完整指南</Button>
+      </div>
+    </Container>
+  </Section>
+</Layout>

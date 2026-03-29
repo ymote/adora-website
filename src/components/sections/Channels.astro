@@ -1,0 +1,93 @@
+---
+import Section from 'components/layout/Section.astro';
+import Container from 'components/layout/Container.astro';
+
+const languages = [
+  {
+    name: 'Rust',
+    snippet: `use adora_node::prelude::*;
+
+#[adora_main]
+fn main() -> eyre::Result<()> {
+    let node = DoraNode::init()?;
+    for event in node {
+        match event {
+            Event::Input { id, data, .. } => {
+                // process data
+            }
+            _ => {}
+        }
+    }
+    Ok(())
+}`,
+  },
+  {
+    name: 'Python',
+    snippet: `from adora import Node
+
+node = Node()
+
+for event in node:
+    if event["type"] == "INPUT":
+        data = event["value"]
+        node.send_output(
+            "out", data
+        )`,
+  },
+  {
+    name: 'C',
+    snippet: `#include "adora/node_api.h"
+
+int main() {
+    void *node = dora_init_node();
+    void *event = dora_next_event(node);
+    while (event != NULL) {
+        char *id = dora_event_id(event);
+        /* process event */
+        dora_free_event(event);
+        event = dora_next_event(node);
+    }
+    dora_drop_node(node);
+}`,
+  },
+  {
+    name: 'C++',
+    snippet: `#include "adora/node.hpp"
+
+int main() {
+    auto node = adora::Node();
+    for (auto event : node) {
+        if (event.type == adora::INPUT) {
+            auto data = event.data();
+            node.send("out", data);
+        }
+    }
+    return 0;
+}`,
+  },
+];
+---
+
+<Section id="languages" background="secondary" padY="lg">
+  <Container>
+    <div class="mb-12 lg:mb-16" data-animate>
+      <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Languages</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">
+        Write nodes in your language
+      </h2>
+      <p class="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+        Each node is an independent process. Use the language that fits your task best —
+        Rust for performance, Python for AI models, C/C++ for hardware drivers.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2" data-animate-stagger>
+      {languages.map((lang) => (
+        <div class="border border-surface-3 bg-surface-1 p-6">
+          <p class="mb-3 font-mono text-[14px] font-medium text-accent">{lang.name}</p>
+          <pre class="overflow-x-auto rounded-sm bg-surface-3 p-4 font-mono text-[12px] leading-relaxed text-neutral-2"><code>{lang.snippet}</code></pre>
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>

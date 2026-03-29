@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Zero-Copy Performance",
+    "description": "10-17x faster than ROS2 via shared memory IPC and Apache Arrow columnar format. Flat latency from 4KB to 4MB payloads with Zenoh SHM data plane.",
+    "stat": "10-17x",
+    "statLabel": "faster than ROS2"
+  },
+  {
+    "title": "4 Communication Patterns",
+    "description": "Beyond pub/sub. Built-in support for Topic, Service (request/reply), Action (goal/feedback/result), and Streaming (session/segment/chunk) via metadata conventions.",
+    "stat": "4",
+    "statLabel": "patterns"
+  },
+  {
+    "title": "Multi-Language SDK",
+    "description": "Write nodes in Rust, Python, C, or C++ with native APIs — not wrappers. Mix languages freely in a single dataflow with zero interop overhead.",
+    "stat": "4",
+    "statLabel": "languages"
+  },
+  {
+    "title": "Fault Tolerance",
+    "description": "Per-node restart policies (never/on-failure/always), exponential backoff, health monitoring, circuit breakers, and coordinator state persistence via redb.",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "Record & Replay",
+    "description": "Capture dataflow messages to .adorec files. Replay offline at any speed with node substitution for regression testing and offline debugging.",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "Cluster Management",
+    "description": "Distributed deployment via SSH with label scheduling, rolling upgrades, and auto-recovery. Single CLI manages local dev and multi-machine production.",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "Dynamic Topology",
+    "description": "Add and remove nodes from running dataflows via CLI without restarting. Connect and disconnect node ports on the fly for live reconfiguration.",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "Comprehensive Observability",
+    "description": "Built-in OpenTelemetry for structured logging, metrics, and distributed tracing. Zero-setup trace viewing, live topic inspection, and resource monitoring TUI.",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "Agentic Engineering",
+    "description": "Built and maintained with autonomous AI agents driving code generation, reviews, refactoring, testing, and commits. 772 source files and growing.",
+    "stat": "772",
+    "statLabel": "source files"
+  }
+]

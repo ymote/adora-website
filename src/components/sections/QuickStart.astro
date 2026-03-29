@@ -1,0 +1,48 @@
+---
+import Section from 'components/layout/Section.astro';
+import Container from 'components/layout/Container.astro';
+import CodeBlock from 'components/ui/CodeBlock.astro';
+
+const code = `<span class="text-neutral-2"># Install</span>
+cargo install adora-cli
+
+<span class="text-neutral-2"># Create a dataflow</span>
+cat > dataflow.yml << <span class="text-neutral-1">'EOF'</span>
+nodes:
+  - id: webcam
+    path: adora-hub/webcam
+    outputs: [image]
+  - id: detector
+    path: adora-hub/yolov8
+    inputs:
+      image: webcam/image
+    outputs: [bbox]
+  - id: plot
+    path: adora-hub/opencv-plot
+    inputs:
+      image: webcam/image
+      bbox: detector/bbox
+<span class="text-neutral-1">EOF</span>
+
+<span class="text-neutral-2"># Run it</span>
+adora start dataflow.yml`;
+---
+
+<Section id="quickstart" background="secondary" padY="lg">
+  <Container narrow>
+    <div class="mb-12 lg:mb-16" data-animate>
+      <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Get Started</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">
+        Deploy in minutes
+      </h2>
+      <p class="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+        Install the CLI, define your nodes in YAML, and start processing data.
+        No Docker, no Kubernetes, no complex setup.
+      </p>
+    </div>
+
+    <div data-animate>
+      <CodeBlock code={code} />
+    </div>
+  </Container>
+</Section>

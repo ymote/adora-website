@@ -1,0 +1,280 @@
+@import "tailwindcss";
+
+/* === Font loading === */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/GeistVF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMonoVF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* === Tailwind v4 Theme — Adora Carbon Steel Design Tokens === */
+@theme {
+  --color-bg: #0A0A0F;
+  --color-bg-secondary: #12121A;
+  --color-surface-1: #1C1C28;
+  --color-surface-2: #26263A;
+  --color-surface-3: #35354D;
+  --color-neutral-1: #5A5A7A;
+  --color-neutral-2: #8888AA;
+  --color-text: #E8E8F0;
+  --color-text-bright: #FAFAFA;
+  --color-text-dim: #8888AA;
+  --color-accent: #00D4AA;
+  --color-accent-dark: #00A882;
+  --color-heading: #00D4AA;
+  --color-title: #FFB84D;
+  --color-link: #00D4AA;
+  --color-code: #FFB84D;
+
+  --font-sans: 'Geist', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMonoRegular', monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-fade-in-up: fade-in-up 0.6s var(--ease-out-expo) both;
+  --animate-fade-in: fade-in 0.5s ease both;
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* === Adora Dark Mode — Deep Indigo === */
+html[data-theme="dark"] {
+  --color-bg: #080820;
+  --color-bg-secondary: #0C0C2A;
+  --color-surface-1: #161640;
+  --color-surface-2: #1E1E50;
+  --color-surface-3: #2A2A66;
+  --color-neutral-1: #5555AA;
+  --color-neutral-2: #7777CC;
+  --color-text: #E0E0F8;
+  --color-text-bright: #FFFFFF;
+  --color-text-dim: #7777CC;
+  --color-accent: #00D4AA;
+  --color-accent-dark: #00A882;
+  --color-heading: #00D4AA;
+  --color-title: #FFB84D;
+  --color-link: #00D4AA;
+  --color-code: #FFB84D;
+}
+
+/* === Adora Light Mode === */
+html[data-theme="light"] {
+  --color-bg: #F5F5FA;
+  --color-bg-secondary: #EAEAF2;
+  --color-surface-1: #FFFFFF;
+  --color-surface-2: #E0E0EE;
+  --color-surface-3: #CCCCDD;
+  --color-neutral-1: #8888AA;
+  --color-neutral-2: #555577;
+  --color-text: #1A1A2E;
+  --color-text-bright: #0A0A1A;
+  --color-text-dim: #666688;
+  --color-accent: #009977;
+  --color-accent-dark: #007755;
+  --color-heading: #008866;
+  --color-title: #CC8800;
+  --color-link: #008866;
+  --color-code: #CC8800;
+}
+
+/* === Base styles === */
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  body {
+    max-width: 1920px;
+    margin: 0 auto;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--color-heading);
+  }
+
+  h1 {
+    color: var(--color-title);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+  }
+}
+
+/* === Animated underline link === */
+@layer components {
+  .link-animated {
+    position: relative;
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color 0.3s var(--ease-out-expo);
+  }
+
+  .link-animated::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+
+  .link-animated:hover {
+    color: var(--color-accent);
+  }
+
+  .link-animated:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* === SVG Section — fixed background with content scrolling over === */
+  .svg-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .svg-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .svg-bg svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    position: sticky;
+    top: 0;
+  }
+
+  .svg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-bg) 50%, transparent) 0%,
+      transparent 30%,
+      transparent 70%,
+      color-mix(in srgb, var(--color-bg) 50%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* === Glass Panel — Frosted glass === */
+  .glass-panel {
+    background: linear-gradient(
+      135deg,
+      rgba(28, 28, 40, 0.6) 0%,
+      rgba(28, 28, 40, 0.3) 100%
+    );
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 170, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  html[data-theme="dark"] .glass-panel {
+    background: linear-gradient(
+      135deg,
+      rgba(22, 22, 64, 0.5) 0%,
+      rgba(22, 22, 64, 0.3) 100%
+    );
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  html[data-theme="light"] .glass-panel {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.6) 100%
+    );
+    border: 1px solid rgba(0, 153, 119, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  /* === Glass Box — Hero variant (stronger effect) === */
+  .glass-box {
+    background: linear-gradient(
+      135deg,
+      rgba(28, 28, 40, 0.7) 0%,
+      rgba(28, 28, 40, 0.4) 100%
+    );
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  html[data-theme="dark"] .glass-box {
+    background: linear-gradient(
+      135deg,
+      rgba(22, 22, 64, 0.6) 0%,
+      rgba(22, 22, 64, 0.4) 100%
+    );
+    border: 1px solid rgba(0, 212, 170, 0.2);
+  }
+
+  html[data-theme="light"] .glass-box {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.6) 100%
+    );
+    border: 1px solid rgba(0, 153, 119, 0.2);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 768px) {
+    .glass-panel,
+    .glass-box {
+      padding: 1.25rem 1.5rem;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+---
+import SvgSection from 'components/ui/SvgSection.astro';
+
+const rows = [
+  { dim: 'What it is', adora: 'Dataflow framework', dora: 'Dataflow framework', ros2: 'Robotics middleware' },
+  { dim: 'Latency (SHM)', adora: '~500us p50', dora: '~500us p50', ros2: '1-10ms' },
+  { dim: 'Comm patterns', adora: '4 (Topic/Service/Action/Stream)', dora: '1 (Topic)', ros2: '4' },
+  { dim: 'Fault tolerance', adora: 'Built-in restart policies', dora: 'None', ros2: 'Basic' },
+  { dim: 'Record/Replay', adora: 'Built-in (.adorec)', dora: 'None', ros2: 'rosbag' },
+  { dim: 'Cluster management', adora: 'SSH + labels', dora: 'None', ros2: 'Manual' },
+  { dim: 'Dynamic topology', adora: 'Yes', dora: 'No', ros2: 'Partial' },
+  { dim: 'Observability', adora: 'OpenTelemetry', dora: 'Basic logs', ros2: 'ROS2 logging' },
+  { dim: 'Languages', adora: 'Rust/Py/C/C++', dora: 'Rust/Py/C/C++', ros2: 'C++/Py' },
+  { dim: 'Zero-copy', adora: 'Arrow + Zenoh SHM', dora: 'Arrow + Zenoh SHM', ros2: 'CDR serialization' },
+];
+---
+
+<SvgSection id="comparison" bgSrc="/images/bg-coral-panel.png">
+  <div class="glass-panel mb-8">
+    <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Comparison</p>
+    <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+      Adora vs dora vs ROS2
+    </h2>
+    <p class="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+      Adora builds on dora's zero-copy data plane and adds the orchestration, fault tolerance,
+      and observability you need for production deployments.
+    </p>
+  </div>
+
+  <div class="glass-panel overflow-x-auto">
+    <table class="w-full border-collapse text-[13px]">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="px-3 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-1">Dimension</th>
+          <th class="px-3 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-accent">Adora</th>
+          <th class="px-3 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-2">dora</th>
+          <th class="px-3 py-3 text-left font-mono text-[11px] uppercase tracking-[0.08em] text-neutral-2">ROS2</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr class="border-b border-white/5 transition-colors duration-200 hover:bg-white/5">
+            <td class="px-3 py-2.5 font-mono text-[12px] text-neutral-2">{row.dim}</td>
+            <td class="px-3 py-2.5 text-text-bright">{row.adora}</td>
+            <td class="px-3 py-2.5 text-neutral-2">{row.dora}</td>
+            <td class="px-3 py-2.5 text-neutral-2">{row.ros2}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6 text-center">
+    <a href="/comparison" class="font-mono text-[13px] text-accent underline underline-offset-4 transition-colors duration-200 hover:text-text-bright">
+      See full comparison →
+    </a>
+  </div>
+</SvgSection>

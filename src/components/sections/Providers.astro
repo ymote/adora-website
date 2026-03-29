@@ -1,0 +1,25 @@
+---
+import Section from 'components/layout/Section.astro';
+import Container from 'components/layout/Container.astro';
+import LogoGrid from './LogoGrid.astro';
+import patterns from 'data/patterns.json';
+---
+
+<Section padY="lg">
+  <Container>
+    <div class="mb-12 lg:mb-16" data-animate>
+      <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Data Layer</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] text-text-bright md:text-[36px] lg:text-[48px]">
+        Communication patterns
+      </h2>
+      <p class="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-2">
+        Four built-in patterns for every inter-node communication need.
+        All patterns work identically across local shared memory and distributed Zenoh transport.
+      </p>
+    </div>
+
+    <div data-animate>
+      <LogoGrid items={patterns} columns={4} />
+    </div>
+  </Container>
+</Section>

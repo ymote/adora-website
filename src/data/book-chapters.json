@@ -1,0 +1,55 @@
+[
+  {
+    "section": "Getting Started",
+    "chapters": [
+      { "title": "Installation", "description": "Install the Adora CLI and runtime on Linux, macOS, or Windows", "href": "/book/getting-started/installation" },
+      { "title": "Quickstart", "description": "Build and run your first dataflow in under 5 minutes", "href": "/book/getting-started/quickstart" }
+    ]
+  },
+  {
+    "section": "Concepts",
+    "chapters": [
+      { "title": "Architecture", "description": "CLI, Coordinator, Daemon, and Node layers explained", "href": "/book/concepts/architecture" },
+      { "title": "Dataflow YAML", "description": "Define pipelines as directed graphs with typed inputs and outputs", "href": "/book/concepts/dataflow-yaml" },
+      { "title": "Type Annotations", "description": "Static type checking for dataflow connections", "href": "/book/concepts/type-annotations" },
+      { "title": "Modules", "description": "Compose reusable sub-graphs as standalone YAML files", "href": "/book/concepts/modules" },
+      { "title": "Communication Patterns", "description": "Topic, Service, Action, and Streaming patterns", "href": "/book/concepts/patterns" }
+    ]
+  },
+  {
+    "section": "Language APIs",
+    "chapters": [
+      { "title": "Rust", "description": "Native Rust node and operator APIs", "href": "/book/languages/rust" },
+      { "title": "Python", "description": "PyO3-based Python bindings with full API parity", "href": "/book/languages/python" },
+      { "title": "C", "description": "FFI bindings for embedded and legacy systems", "href": "/book/languages/c" },
+      { "title": "C++", "description": "CXX bridge with Arrow data support", "href": "/book/languages/cpp" }
+    ]
+  },
+  {
+    "section": "Operations",
+    "chapters": [
+      { "title": "CLI Reference", "description": "Complete command reference for the adora CLI", "href": "/book/operations/cli" },
+      { "title": "Logging", "description": "Structured logging with rotation, routing, and aggregation", "href": "/book/operations/logging" },
+      { "title": "Debugging", "description": "Topic inspection, trace viewing, and resource monitoring", "href": "/book/operations/debugging" },
+      { "title": "Fault Tolerance", "description": "Restart policies, health checks, and circuit breakers", "href": "/book/operations/fault-tolerance" },
+      { "title": "Distributed Deployment", "description": "Multi-machine clusters with SSH and label scheduling", "href": "/book/operations/distributed" },
+      { "title": "Performance Tuning", "description": "Queue sizes, shared memory thresholds, and Arrow optimization", "href": "/book/operations/performance" },
+      { "title": "Real-Time Tuning", "description": "SCHED_FIFO, mlockall, CPU affinity, and kernel parameters", "href": "/book/operations/realtime-tuning" },
+      { "title": "Dynamic Topology", "description": "Add, remove, connect, and disconnect nodes at runtime", "href": "/book/operations/dynamic-topology" }
+    ]
+  },
+  {
+    "section": "Advanced",
+    "chapters": [
+      { "title": "ROS2 Bridge", "description": "Bidirectional interop with ROS2 topics, services, and actions", "href": "/book/advanced/ros2-bridge" },
+      { "title": "WebSocket Control", "description": "Programmatic control via the WebSocket API", "href": "/book/advanced/ws-control" },
+      { "title": "WebSocket Topics", "description": "Stream topic data over WebSocket for web UIs", "href": "/book/advanced/ws-topic" }
+    ]
+  },
+  {
+    "section": "Development",
+    "chapters": [
+      { "title": "Testing Guide", "description": "Unit tests, integration tests, smoke tests, and TDD workflow", "href": "/book/development/testing" }
+    ]
+  }
+]

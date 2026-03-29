@@ -1,0 +1,6 @@
+[
+  { "name": "Topic", "description": "Fire-and-forget pub/sub for sensor data and events" },
+  { "name": "Service", "description": "Request/reply with UUID correlation and timeouts" },
+  { "name": "Action", "description": "Long-running goals with feedback and cancellation" },
+  { "name": "Streaming", "description": "Continuous data with flush for real-time interruption" }
+]

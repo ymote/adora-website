@@ -1,0 +1,50 @@
+---
+import Button from 'components/ui/Button.astro';
+import Badge from 'components/ui/Badge.astro';
+---
+
+<section class="hero-scene relative flex min-h-screen items-end overflow-hidden pb-12 pt-20 lg:pb-16">
+  <!-- Background gradient -->
+  <div class="absolute inset-0 z-0" style="background: linear-gradient(135deg, #0A0A0F 0%, #1C1C28 40%, #00D4AA15 100%);">
+    <!-- Gradient overlay for text readability -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+  </div>
+
+  <!-- Text directly on background -->
+  <div class="relative z-10 w-full px-4 lg:px-9">
+    <div class="mx-auto max-w-7xl text-center">
+      <Badge text="Open Source" variant="accent" />
+
+      <h1 class="mt-4 text-[32px] leading-[1.05] tracking-[-0.04em] text-white md:text-[48px] 2xl:text-[60px]">
+        Agentic Dataflow-Oriented<br />Robotic Architecture
+      </h1>
+
+      <p class="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-white/70 lg:text-[16px]">
+        100% Rust framework for real-time robotics and AI. 10-17x faster than ROS2
+        with zero-copy shared memory, 4 communication patterns, and production-grade
+        fault tolerance.
+      </p>
+
+      <!-- Stats bar -->
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.08em] text-white/50 md:gap-x-4">
+        <span>10-17x faster</span>
+        <span class="text-white/20">|</span>
+        <span>4 patterns</span>
+        <span class="text-white/20">|</span>
+        <span>4 languages</span>
+        <span class="text-white/20">|</span>
+        <span>zero-copy</span>
+        <span class="text-white/20">|</span>
+        <span>open source</span>
+      </div>
+
+      <!-- CTAs -->
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <Button href="#quickstart">Get Started</Button>
+        <Button href="https://github.com/dora-rs/adora" variant="outline" external>
+          GitHub
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import Section from 'components/layout/Section.astro';
+import Container from 'components/layout/Container.astro';
+
+const cases = [
+  {
+    label: '01',
+    title: 'Autonomous Robots',
+    description: 'Perception, planning, and control nodes connected via zero-copy shared memory. Add new sensors or actuators without rewriting existing nodes.',
+    highlights: ['Zero-copy SHM', 'Hot-swap nodes', 'Multi-language'],
+  },
+  {
+    label: '02',
+    title: 'AI Pipelines',
+    description: 'Chain camera, object detection, LLM reasoning, and action nodes into a single dataflow. Python for AI models, Rust for real-time control.',
+    highlights: ['YOLO + LLM', 'GPU scheduling', 'Arrow buffers'],
+  },
+  {
+    label: '03',
+    title: 'Voice Assistants',
+    description: 'Streaming ASR, LLM generation, and TTS with queue flushing for real-time interruption. Action pattern for long-running conversations.',
+    highlights: ['Streaming pattern', 'Queue flushing', 'Sub-second latency'],
+  },
+  {
+    label: '04',
+    title: 'Distributed Simulation',
+    description: 'Run simulation nodes across a cluster. Record and replay scenarios at any speed for regression testing without physical hardware.',
+    highlights: ['Record/Replay', 'Cluster deploy', 'Variable speed'],
+  },
+  {
+    label: '05',
+    title: 'Industrial Automation',
+    description: 'PLC interfaces, sensor fusion, and control logic with fault tolerance. Exponential backoff and health monitoring keep production lines running.',
+    highlights: ['Fault tolerance', 'Health checks', 'Rolling upgrades'],
+  },
+  {
+    label: '06',
+    title: 'Research & Prototyping',
+    description: 'Define your dataflow in YAML, mix languages freely, and iterate fast. Record real data once and replay offline for algorithm development.',
+    highlights: ['YAML dataflows', 'Offline replay', 'Fast iteration'],
+  },
+];
+---
+
+<Section id="usecases" padY="lg">
+  <Container>
+    <div class="mb-12 lg:mb-16" data-animate>
+      <p class="font-mono text-[12px] uppercase tracking-[0.08em] text-neutral-2">Use Cases</p>
+      <h2 class="mt-3 text-[28px] tracking-[-0.03em] md:text-[36px] lg:text-[48px]">
+        Built for real workloads
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-px overflow-hidden border border-surface-3 md:grid-cols-2 lg:grid-cols-3" data-animate-stagger>
+      {cases.map((c) => (
+        <div class="group bg-surface-1 p-6 transition-colors duration-300 hover:bg-surface-2 lg:p-8">
+          <span class="font-mono text-[11px] text-neutral-1">{c.label}</span>
+          <h3 class="mt-3 text-[18px] tracking-[-0.01em] lg:text-[20px]">{c.title}</h3>
+          <p class="mt-3 text-[14px] leading-relaxed text-neutral-2">{c.description}</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {c.highlights.map((h) => (
+              <span class="rounded-sm bg-surface-3 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-neutral-2 transition-colors duration-300 group-hover:text-accent">
+                {h}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>

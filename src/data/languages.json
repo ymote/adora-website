@@ -1,0 +1,6 @@
+[
+  { "name": "Rust", "description": "Native performance with zero-cost abstractions" },
+  { "name": "Python", "description": "PyO3 bindings with full API parity" },
+  { "name": "C", "description": "FFI bindings for embedded and legacy systems" },
+  { "name": "C++", "description": "CXX bridge with Arrow data support" }
+]

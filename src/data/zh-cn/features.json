@@ -1,0 +1,56 @@
+[
+  {
+    "title": "零拷贝性能",
+    "description": "通过共享内存 IPC 和 Apache Arrow 列式格式，比 ROS2 快 10-17 倍。4KB 到 4MB 负载延迟持平，Zenoh SHM 数据平面。",
+    "stat": "10-17x",
+    "statLabel": "快于 ROS2"
+  },
+  {
+    "title": "4 种通信模式",
+    "description": "不仅仅是发布/订阅。内置 Topic、Service（请求/回复）、Action（目标/反馈/结果）和 Streaming（会话/分段/数据块）模式。",
+    "stat": "4",
+    "statLabel": "种模式"
+  },
+  {
+    "title": "多语言 SDK",
+    "description": "用 Rust、Python、C 或 C++ 编写节点，原生 API 而非包装器。在单个数据流中自由混合语言，零互操作开销。",
+    "stat": "4",
+    "statLabel": "种语言"
+  },
+  {
+    "title": "容错机制",
+    "description": "按节点配置重启策略（never/on-failure/always）、指数退避、健康监控、熔断器、通过 redb 持久化协调器状态。",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "录制与回放",
+    "description": "将数据流消息录制到 .adorec 文件。以任意速度离线回放，支持节点替换，用于回归测试和离线调试。",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "集群管理",
+    "description": "通过 SSH 进行分布式部署，支持标签调度、滚动升级和自动恢复。单一 CLI 管理本地开发和多机生产环境。",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "动态拓扑",
+    "description": "通过 CLI 在运行中的数据流中添加和移除节点，无需重启。动态连接和断开节点端口，实时重配置。",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "全面可观测性",
+    "description": "内置 OpenTelemetry，支持结构化日志、指标和分布式追踪。零配置追踪查看、实时 Topic 检查和资源监控 TUI。",
+    "stat": null,
+    "statLabel": null
+  },
+  {
+    "title": "智能体工程",
+    "description": "由自主 AI 智能体驱动代码生成、审查、重构、测试和提交。772 个源文件，持续增长中。",
+    "stat": "772",
+    "statLabel": "源文件"
+  }
+]

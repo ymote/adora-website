@@ -1,0 +1,13 @@
+{
+  "links": [
+    { "text": "Features", "href": "#features" },
+    { "text": "Architecture", "href": "#architecture" },
+    { "text": "Performance", "href": "#performance" },
+    { "text": "Comparison", "href": "/comparison" },
+    { "text": "Quick Start", "href": "#quickstart" }
+  ],
+  "external": [
+    { "text": "Book", "href": "/book" },
+    { "text": "GitHub", "href": "https://github.com/dora-rs/adora" }
+  ]
+}
