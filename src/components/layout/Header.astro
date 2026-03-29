@@ -1,28 +1,40 @@
 ---
 import ThemeToggle from 'components/ui/ThemeToggle.astro';
 
+const base = '/adora-website';
 const isZhCn = Astro.url.pathname.includes('/zh-cn');
-const langSwitchHref = isZhCn ? '/adora-website/' : '/adora-website/zh-cn/';
-const langSwitchLabel = isZhCn ? 'English' : '中文';
+const langSwitchHref = isZhCn ? `${base}/` : `${base}/zh-cn/`;
+const langSwitchLabel = isZhCn ? 'EN' : 'CN';
 
-const navLinks = [
+const navLinks = isZhCn ? [
+  { text: '特性', href: '#features' },
+  { text: '架构', href: '#architecture' },
+  { text: '性能', href: '#performance' },
+  { text: '对比', href: `${base}/zh-cn/comparison` },
+  { text: '快速开始', href: '#quickstart' },
+] : [
   { text: 'Features', href: '#features' },
   { text: 'Architecture', href: '#architecture' },
   { text: 'Performance', href: '#performance' },
-  { text: 'Comparison', href: '/comparison' },
+  { text: 'Comparison', href: `${base}/comparison` },
   { text: 'Quick Start', href: '#quickstart' },
 ];
 
-const externalLinks = [
-  { text: 'Book', href: '/book' },
+const externalLinks = isZhCn ? [
+  { text: '手册', href: `${base}/zh-cn/book` },
+  { text: 'GitHub', href: 'https://github.com/dora-rs/adora' },
+] : [
+  { text: 'Book', href: `${base}/book` },
   { text: 'GitHub', href: 'https://github.com/dora-rs/adora' },
 ];
+
+const homeHref = isZhCn ? `${base}/zh-cn/` : `${base}/`;
 ---
 
 <header class="fixed top-0 z-50 w-full max-w-[1920px] border-b border-surface-3 bg-bg/90 backdrop-blur-sm">
   <div class="flex items-center justify-between px-4 py-4 lg:px-9">
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-1 font-mono text-[16px] uppercase tracking-[0.08em] text-text-bright">
+    <a href={homeHref} class="flex items-center gap-1 font-mono text-[16px] uppercase tracking-[0.08em] text-text-bright">
       ADORA<span class="text-teal-400">.</span>
     </a>
 
@@ -40,32 +52,31 @@ const externalLinks = [
       {externalLinks.map((link) => (
         <a
           href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={link.href.startsWith('http') ? '_blank' : undefined}
+          rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
           class="link-animated font-mono text-[16px] uppercase leading-none tracking-[0.08em] text-text"
         >
           {link.text}
         </a>
       ))}
       <span class="h-3 w-px bg-surface-3" />
-      <a href={langSwitchHref} class="font-mono text-[16px] uppercase leading-none tracking-[0.08em] text-text transition-colors hover:text-accent">{langSwitchLabel}</a>
+      <a href={langSwitchHref} class="font-mono text-[16px] uppercase leading-none tracking-[0.08em] text-accent transition-colors hover:text-title">{langSwitchLabel}</a>
       <ThemeToggle />
     </nav>
 
     <!-- Mobile: Theme Toggle + Menu Button -->
     <div class="flex items-center gap-3 lg:hidden">
       <ThemeToggle />
-    <!-- Mobile Menu Button -->
-    <button
-      id="menu-toggle"
-      class="flex size-8 items-center justify-center lg:hidden"
-      aria-label="Toggle menu"
-    >
-      <span class="menu-icon flex flex-col gap-1.5">
-        <span class="block h-px w-5 bg-text transition-all duration-300" />
-        <span class="block h-px w-5 bg-text transition-all duration-300" />
-      </span>
-    </button>
+      <button
+        id="menu-toggle"
+        class="flex size-8 items-center justify-center"
+        aria-label="Toggle menu"
+      >
+        <span class="menu-icon flex flex-col gap-1.5">
+          <span class="block h-px w-5 bg-text transition-all duration-300" />
+          <span class="block h-px w-5 bg-text transition-all duration-300" />
+        </span>
+      </button>
     </div>
   </div>
 
@@ -80,24 +91,24 @@ const externalLinks = [
           {link.text}
         </a>
       ))}
-      <a href="/adora-website/zh-cn/" class="link-animated font-mono text-[16px] uppercase tracking-[0.08em] text-text">中文</a>
       <span class="h-px w-full bg-surface-3" />
       {externalLinks.map((link) => (
         <a
           href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={link.href.startsWith('http') ? '_blank' : undefined}
+          rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
           class="link-animated font-mono text-[16px] uppercase tracking-[0.08em] text-text"
         >
           {link.text}
         </a>
       ))}
+      <span class="h-px w-full bg-surface-3" />
+      <a href={langSwitchHref} class="font-mono text-[16px] uppercase tracking-[0.08em] text-accent">{langSwitchLabel}</a>
     </nav>
   </div>
 </header>
 
 <style>
-  /* Sibling dimming */
   .nav-group:hover a {
     opacity: 0.6;
     transition: opacity 0.25s ease;
@@ -106,7 +117,6 @@ const externalLinks = [
     opacity: 1;
   }
 
-  /* Mobile menu open state */
   .menu-open .menu-icon span:first-child {
     transform: translateY(3.5px) rotate(45deg);
   }
@@ -124,7 +134,6 @@ const externalLinks = [
     toggle.classList.toggle('menu-open');
   });
 
-  // Close mobile menu on nav link click
   menu?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       menu.classList.add('hidden');

@@ -1,70 +1,73 @@
 ---
-const links = [
+const base = '/adora-website';
+const isZhCn = Astro.url.pathname.includes('/zh-cn');
+
+const links = isZhCn ? [
+  { text: '特性', href: '#features' },
+  { text: '架构', href: '#architecture' },
+  { text: '性能', href: '#performance' },
+  { text: '快速开始', href: '#quickstart' },
+] : [
   { text: 'Features', href: '#features' },
   { text: 'Architecture', href: '#architecture' },
   { text: 'Performance', href: '#performance' },
   { text: 'Quick Start', href: '#quickstart' },
 ];
 
-const external = [
-  { text: 'Book', href: '/book' },
+const external = isZhCn ? [
+  { text: '手册', href: `${base}/zh-cn/book` },
+  { text: 'GitHub', href: 'https://github.com/dora-rs/adora' },
+  { text: 'Discord', href: 'https://discord.gg/6eMGGutkfE' },
+  { text: 'API 文档', href: 'https://docs.rs/adora-node-api' },
+] : [
+  { text: 'Book', href: `${base}/book` },
   { text: 'GitHub', href: 'https://github.com/dora-rs/adora' },
   { text: 'Discord', href: 'https://discord.gg/6eMGGutkfE' },
   { text: 'API Docs', href: 'https://docs.rs/adora-node-api' },
 ];
+
+const brandDesc = isZhCn
+  ? '100% Rust 实时机器人和 AI 应用框架，比 ROS2 快 10-17 倍。'
+  : 'A 100% Rust framework for building real-time robotics and AI applications. 10-17x faster than ROS2.';
+const navLabel = isZhCn ? '导航' : 'Navigation';
+const resLabel = isZhCn ? '资源' : 'Resources';
+const builtWith = isZhCn ? '智能体工程驱动构建' : 'Built with agentic engineering';
 ---
 
 <footer class="border-t border-surface-3 px-4 py-12 lg:px-9 lg:py-16">
   <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-6">
-    <!-- Brand -->
     <div class="lg:col-span-5">
       <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-text-bright">Adora</p>
       <p class="mt-1 text-[15px] font-medium text-neutral-2">Agentic Dataflow-Oriented Robotic Architecture</p>
-      <p class="mt-3 max-w-sm text-[16px] leading-relaxed text-neutral-2">
-        A 100% Rust framework for building real-time robotics and AI applications. 10-17x faster than ROS2.
-      </p>
+      <p class="mt-3 max-w-sm text-[16px] leading-relaxed text-neutral-2">{brandDesc}</p>
     </div>
 
-    <!-- Nav -->
     <div class="lg:col-span-3">
-      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Navigation</p>
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">{navLabel}</p>
       <nav class="mt-4 flex flex-col gap-3">
         {links.map((link) => (
-          <a
-            href={link.href}
-            class="link-animated w-fit font-mono text-[16px] uppercase tracking-[0.08em] text-text"
-          >
-            {link.text}
-          </a>
+          <a href={link.href} class="link-animated w-fit font-mono text-[16px] uppercase tracking-[0.08em] text-text">{link.text}</a>
         ))}
       </nav>
     </div>
 
-    <!-- External -->
     <div class="lg:col-span-4">
-      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">Resources</p>
+      <p class="font-mono text-[16px] uppercase tracking-[0.08em] text-neutral-2">{resLabel}</p>
       <nav class="mt-4 flex flex-col gap-3">
         {external.map((link) => (
           <a
             href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={link.href.startsWith('http') ? '_blank' : undefined}
+            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
             class="link-animated w-fit font-mono text-[16px] uppercase tracking-[0.08em] text-text"
-          >
-            {link.text}
-          </a>
+          >{link.text}</a>
         ))}
       </nav>
     </div>
   </div>
 
-  <!-- Bottom -->
   <div class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-surface-3 pt-8">
-    <p class="font-mono text-[16px] tracking-[0.08em] text-neutral-1">
-      MIT License
-    </p>
-    <p class="font-mono text-[16px] tracking-[0.08em] text-neutral-1">
-      Built with agentic engineering
-    </p>
+    <p class="font-mono text-[16px] tracking-[0.08em] text-neutral-1">MIT License</p>
+    <p class="font-mono text-[16px] tracking-[0.08em] text-neutral-1">{builtWith}</p>
   </div>
 </footer>
