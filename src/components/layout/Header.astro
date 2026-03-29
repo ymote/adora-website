@@ -1,6 +1,10 @@
 ---
 import ThemeToggle from 'components/ui/ThemeToggle.astro';
 
+const isZhCn = Astro.url.pathname.includes('/zh-cn');
+const langSwitchHref = isZhCn ? '/adora-website/' : '/adora-website/zh-cn/';
+const langSwitchLabel = isZhCn ? 'English' : '中文';
+
 const navLinks = [
   { text: 'Features', href: '#features' },
   { text: 'Architecture', href: '#architecture' },
@@ -44,6 +48,7 @@ const externalLinks = [
         </a>
       ))}
       <span class="h-3 w-px bg-surface-3" />
+      <a href={langSwitchHref} class="font-mono text-[16px] uppercase leading-none tracking-[0.08em] text-text transition-colors hover:text-accent">{langSwitchLabel}</a>
       <ThemeToggle />
     </nav>
 
@@ -75,6 +80,7 @@ const externalLinks = [
           {link.text}
         </a>
       ))}
+      <a href="/adora-website/zh-cn/" class="link-animated font-mono text-[16px] uppercase tracking-[0.08em] text-text">中文</a>
       <span class="h-px w-full bg-surface-3" />
       {externalLinks.map((link) => (
         <a

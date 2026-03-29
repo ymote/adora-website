@@ -10,6 +10,7 @@
   "dependencies": {
     "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.2.1",
+    "@google/genai": "^1.47.0",
     "@tailwindcss/vite": "^4.0.0",
     "@xyflow/react": "^12.10.2",
     "astro": "^5.12.0",
